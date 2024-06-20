@@ -16,3 +16,4 @@ dependencyResolutionManagement {
 rootProject.name = "iBank"
 include(":app")
 include(":database")
+include(":datasource")
