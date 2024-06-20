@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "886967609336",
+    "project_id": "ibank-fb6b4",
+    "storage_bucket": "ibank-fb6b4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:886967609336:android:d2c32ab7a8928bb8d8d80d",
+        "android_client_info": {
+          "package_name": "com.deymer.ibank"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBV6sY7DNq7dJqmv6BKNSoufbKxcxFub3c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
