@@ -4,6 +4,8 @@ import com.deymer.database.entities.AccountEntity
 import com.deymer.repository.models.AccountModel
 import com.deymer.repository.models.Currency
 import com.deymer.repository.models.SimpleAccountModel
+import com.deymer.repository.utils.toHumanDate
+import com.deymer.repository.utils.toShortHumanDate
 
 fun SimpleAccountModel.toEntity(userId: String) = AccountEntity(
     userId = userId,
@@ -17,6 +19,6 @@ fun AccountEntity.toModel() = AccountModel(
     number = this.number,
     balance = this.balance,
     currency = Currency.valueOf(this.currency),
-    createdAt = "${this.createdAt}",
-    shortDate = "${this.createdAt}",
+    createdAt = this.createdAt.toHumanDate(),
+    shortDate = this.createdAt.toShortHumanDate()
 )
