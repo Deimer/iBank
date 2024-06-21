@@ -54,6 +54,8 @@ android {
 }
 
 dependencies {
+    //Module
+    implementation project(path: ':usecase')
     //Kotlin
     implementation "androidx.core:core-ktx:$core_ktx"
     //Compose
