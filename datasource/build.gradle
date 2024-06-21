@@ -34,6 +34,7 @@ android {
 dependencies {
     //Modules
     api project(path: ':database')
+    api project(path: ':network')
     //Kotlin
     implementation "androidx.core:core-ktx:$core_ktx"
     //Hilt
@@ -42,5 +43,4 @@ dependencies {
     //Tests
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 }
