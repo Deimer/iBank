@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
 }
 
 android {
@@ -30,11 +32,16 @@ android {
 }
 
 dependencies {
-
-    implementation 'androidx.core:core-ktx:1.13.1'
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'com.google.android.material:material:1.10.0'
+    //Kotlin
+    implementation "androidx.core:core-ktx:$core_ktx"
+    //Firebase Auth
+    implementation "com.google.firebase:firebase-auth-ktx:$firebase_auth_version"
+    //Firebase Storage
+    implementation "com.google.firebase:firebase-storage-ktx:$firebase_storage_version"
+    //Hilt
+    implementation "com.google.dagger:hilt-android:$hilt_version"
+    kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
+    //Tests
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 }
