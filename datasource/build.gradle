@@ -32,6 +32,8 @@ android {
 }
 
 dependencies {
+    //Modules
+    api project(path: ':database')
     //Kotlin
     implementation "androidx.core:core-ktx:$core_ktx"
     //Hilt
