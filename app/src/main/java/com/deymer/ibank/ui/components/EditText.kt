@@ -1,13 +1,13 @@
 package com.deymer.ibank.ui.components
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldColors
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
@@ -27,6 +27,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import com.deymer.presentation.R
 import com.deymer.ibank.ui.colors.black40
@@ -41,7 +42,7 @@ fun textFieldColors(): TextFieldColors {
         disabledContainerColor = Color.Transparent,
         errorContainerColor = Color.Transparent,
         focusedIndicatorColor = black60,
-        unfocusedIndicatorColor = black60,
+        unfocusedIndicatorColor = black40,
         disabledIndicatorColor = Color.Transparent,
         errorIndicatorColor = burntSiennaDark,
         focusedTextColor = black80,
@@ -56,89 +57,95 @@ fun textFieldColors(): TextFieldColors {
         unfocusedTrailingIconColor = burntSiennaMedium,
         disabledTrailingIconColor = black40,
         errorTrailingIconColor = burntSiennaDark,
-
+        focusedLabelColor = black40,
+        unfocusedLabelColor = black40,
+        focusedPlaceholderColor = black60,
+        unfocusedPlaceholderColor = black60,
     )
 }
 
 @Composable
 fun EditText(
-    value: String,
-    onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
     label: String = "",
     placeholder: String = "",
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    imeAction: ImeAction = ImeAction.Done,
     singleLine: Boolean = true,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     trailingIcon: @Composable (() -> Unit)? = null,
-    enabled: Boolean = true,
-    isError: Boolean = false
 ) {
-    OutlinedTextField(
-        value = value,
+    var state by remember { mutableStateOf("") }
+    TextField(
+        modifier = modifier.fillMaxWidth(),
+        value = state,
+        onValueChange = { state = it },
+        label = { Text(text = label) },
         placeholder = { Text(text = placeholder) },
-        enabled = enabled,
-        isError = isError,
-        onValueChange = onValueChange,
-        modifier = modifier.fillMaxWidth()
-            .padding(top = 14.dp, bottom = 18.dp),
-        label = { Text(label) },
+        trailingIcon = trailingIcon,
+        visualTransformation = visualTransformation,
+        keyboardOptions = keyboardOptions.copy(imeAction = imeAction),
+        singleLine = singleLine,
         textStyle = TextStyle(
             color = black80,
             fontSize = 18.sp,
             fontFamily = poppinsFamily
         ),
-        singleLine = singleLine,
-        keyboardOptions = keyboardOptions,
-        shape = RoundedCornerShape(12.dp),
         colors = textFieldColors(),
-        visualTransformation = visualTransformation,
-        trailingIcon = trailingIcon,
     )
 }
 
 @Preview(showBackground = true)
 @Composable
 fun EditTextPreview() {
-    EditText(value = "Input sample", onValueChange = {})
+    Column(modifier = Modifier.padding(all = 8.dp)) {
+        EditText(
+            label = "Input sample",
+            placeholder = "Input sample"
+        )
+    }
 }
 
 @Composable
 fun EmailEditText(
-    value: String,
-    onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
-    label: String = ""
+    label: String = "",
+    placeholder: String = "",
+    imeAction: ImeAction = ImeAction.Done,
 ) {
     EditText(
-        value = value,
-        onValueChange = onValueChange,
         modifier = modifier,
         label = label,
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
+        placeholder = placeholder,
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+        imeAction = imeAction,
     )
 }
 
 @Preview(showBackground = true)
 @Composable
 fun EmailEditTextPreview() {
-    EmailEditText(value = "sample@mail.com", onValueChange = {})
+    Column(modifier = Modifier.padding(all = 8.dp)) {
+        EmailEditText(
+            label = "Input sample",
+            placeholder = "sample@mail.com",
+        )
+    }
 }
 
 @Composable
 fun PasswordEditText(
-    value: String,
-    onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
-    label: String = ""
+    label: String = "",
+    placeholder: String = "",
+    imeAction: ImeAction = ImeAction.Done,
 ) {
     var passwordVisible by remember { mutableStateOf(false) }
     val visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation()
     EditText(
-        value = value,
-        onValueChange = onValueChange,
         modifier = modifier,
         label = label,
+        placeholder = placeholder,
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
         trailingIcon = {
             val image = if (passwordVisible) painterResource(id = R.drawable.ic_eye) else painterResource(id = R.drawable.ic_eye_slash)
@@ -147,11 +154,17 @@ fun PasswordEditText(
             }
         },
         visualTransformation = visualTransformation,
+        imeAction = imeAction,
     )
 }
 
 @Preview(showBackground = true)
 @Composable
-fun PasswordTEditTextPreview() {
-    PasswordEditText(value = "password", onValueChange = {})
+fun PasswordEditTextPreview() {
+    Column(modifier = Modifier.padding(all = 8.dp)) {
+        PasswordEditText(
+            label = "Input sample",
+            placeholder = "password",
+        )
+    }
 }

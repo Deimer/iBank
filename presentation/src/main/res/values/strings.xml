@@ -7,6 +7,7 @@
     <string name="initial_photo_size" translatable="false">0.0 KB</string>
     <string name="initial_balance" translatable="false">$ 0.0</string>
 
+    <string name="continue_text">Continue</string>
     <string name="title_splash">Technical Test Android</string>
     <string name="log_in">Login</string>
     <string name="sign_in_register">Sign in</string>
