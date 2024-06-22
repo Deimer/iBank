@@ -28,6 +28,7 @@ val burntSiennaLight = Color(0xFFF8D2C4)
 val burntSiennaLite = Color(0x99F8D2C4)
 val burntSiennaLightest = Color(0xFFFEF8F6)
 val honeydew = Color(0xFFE2FCEE)
+val bloodRedLightest = Color(0xFFFFECEC)
 
 // Other colors
 val seaGreen = Color(0xFF279061)

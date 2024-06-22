@@ -21,11 +21,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.deymer.presentation.R
 import com.deymer.ibank.ui.colors.snow
-import com.deymer.ibank.ui.components.Lottie
+import com.deymer.ibank.ui.components.ButtonSize
+import com.deymer.ibank.ui.components.ButtonStyle
+import com.deymer.ibank.ui.components.TapButton
 
 @Composable
 fun SplashScreen() {
-    Scaffold { paddingValues ->
+    Scaffold(
+        bottomBar = { BottomBarCompose() }
+    ) { paddingValues ->
         BodyContent(paddingValues)
     }
 }
@@ -43,39 +47,45 @@ fun BodyContent(paddingValues: PaddingValues) {
             painter = painterResource(id = R.drawable.bkg_splash),
             contentDescription = null,
             modifier = Modifier.fillMaxSize(),
-            contentScale = ContentScale.Inside,
+            contentScale = ContentScale.Crop,
             alignment = Alignment.TopCenter
         )
-
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = 180.dp),
+                .padding(bottom = 60.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+            verticalArrangement = Arrangement.Bottom
         ) {
-            Lottie(
-                rawRes = R.raw.logo,
-                modifier = Modifier.padding(top = 20.dp)
+            Text(
+                text = stringResource(R.string.app_name),
+                style = MaterialTheme.typography.headlineLarge,
+                modifier = Modifier.align(Alignment.CenterHorizontally)
             )
-
-            Column(
-                modifier = Modifier.padding(top = 60.dp)
-            ) {
-                Text(
-                    text = stringResource(R.string.app_name),
-                    style = MaterialTheme.typography.headlineLarge,
-                    modifier = Modifier.align(Alignment.CenterHorizontally)
-                )
-                Text(
-                    text = stringResource(R.string.title_splash),
-                    style = MaterialTheme.typography.bodyLarge,
-                    modifier = Modifier.padding(top = 16.dp)
-                        .align(Alignment.CenterHorizontally)
-                )
-            }
+            Text(
+                text = stringResource(R.string.title_splash),
+                style = MaterialTheme.typography.bodyLarge,
+                modifier = Modifier
+                    .padding(top = 8.dp)
+                    .align(Alignment.CenterHorizontally)
+            )
         }
     }
+}
+
+@Composable
+fun BottomBarCompose() {
+    TapButton(
+        text = stringResource(id = R.string.continue_text),
+        buttonStyle = ButtonStyle.Primary,
+        size = ButtonSize.Normal,
+        modifier = Modifier.padding(
+            start = 12.dp,
+            end = 12.dp,
+            bottom = 32.dp,
+        ),
+        onClick = {}
+    )
 }
 
 @Preview(showBackground = true)

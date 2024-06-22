@@ -22,6 +22,7 @@ private val DarkColorScheme = darkColorScheme(
     onPrimary = dark,
     secondary = snow,
     onSecondary = snow,
+    background = snow,
 )
 
 private val LightColorScheme = lightColorScheme(
