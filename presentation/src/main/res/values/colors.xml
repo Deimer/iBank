@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="snow">#FCFAF7</color>
+    <color name="lotion">#FAFAFA</color>
+    <color name="seashell">#FBF4EE</color>
+    <color name="antiqueWhite">#F6EBDF</color>
+    <color name="linen">#F9EEE1</color>
+
+    <color name="burntSienna">#EA7648</color>
+    <color name="burntSiennaDark">#EE916D</color>
+    <color name="burntSiennaMedium">#F1A587</color>
+    <color name="vividTangerine">#F2AD91</color>
+    <color name="deepPeach">#F4B79F</color>
+    <color name="melon">#F5BEA8</color>
+    <color name="burntSiennaLight">#F8D2C4</color>
+    <color name="burntSiennaLite">#99F8D2C4</color>
+    <color name="burntSiennaLightest">#FEF8F6</color>
+    <color name="honeydew">#E2FCEE</color>
+    <color name="seaGreen">#279061</color>
+    <color name="bloodRedLightest">#FFECEC</color>
+    <color name="lustRed">#E42525</color>
+    <color name="lavenderWeb">#E6EFFA</color>
+    <color name="absoluteZeroCrayola">#0050B5</color>
+    <color name="pineappleLightest">#FCF7ED</color>
+    <color name="pineappleDark">#B27E1A</color>
+    <color name="goldenPoppy">#E2A736</color>
+    <color name="darkMidnightBlueLight">#003166</color>
+    <color name="slateGrayLightest">#F0F3F4</color>
+
+    <color name="black">#FF000000</color>
+    <color name="black_20">#33000000</color>
+    <color name="black_40">#66000000</color>
+    <color name="black_60">#99000000</color>
+    <color name="black_80">#CC000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="white_80">#CCFFFFFF</color>
+    <color name="white_60">#99FFFFFF</color>
+    <color name="white_40">#66FFFFFF</color>
+    <color name="dark">#181818</color>
+    <color name="dark_80">#CC181818</color>
+    <color name="dark_60">#99181818</color>
+    <color name="dark_40">#66181818</color>
+    <color name="dark_20">#33181818</color>
+    <color name="dark_sienna">#301918</color>
+    <color name="navy">#1A2547</color>
+</resources>

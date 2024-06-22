@@ -6,15 +6,15 @@ buildscript {
         //Lifecycle
         lifecycle_version = "2.3.1"
         lifecycle_version_compiler = "2.1.0"
-        lifecycle_version_livedata = "2.5.1"
+        lifecycle_version_livedata = "2.8.2"
         lifecycle_version_extensions = "2.2.0"
         //Navigation
-        nav_version = "2.5.1"
+        nav_version = "2.7.7"
         //Dependency Injection
         hilt_version = "2.48"
         //Presentation
         coil_version = "2.4.0"
-        lottie_version = "4.2.2"
+        lottie_version = "6.0.0"
         //Firestore
         firestore_version = '25.0.0'
         //Firebase Authentication
@@ -44,6 +44,6 @@ buildscript {
 
 plugins {
     id("com.android.application") version "8.5.0" apply false
-    id("org.jetbrains.kotlin.android") version "1.8.10" apply false
+    id("org.jetbrains.kotlin.android") version "1.9.0" apply false
     id 'com.android.library' version '8.5.0' apply false
 }
