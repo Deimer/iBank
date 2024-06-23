@@ -24,6 +24,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.deymer.ibank.ui.colors.dark20
 import com.deymer.ibank.ui.colors.snow
+import com.deymer.ibank.ui.components.ButtonSize
+import com.deymer.ibank.ui.components.ButtonStyle
+import com.deymer.ibank.ui.components.Tag
+import com.deymer.ibank.ui.components.TapButton
 import com.deymer.ibank.ui.components.TopBar
 import com.deymer.ibank.ui.models.UIUserModel
 import com.deymer.ibank.ui.theme.IBankTheme
@@ -33,6 +37,7 @@ import com.deymer.presentation.R
 fun ProfileScreen(user: UIUserModel) {
     Scaffold(
         topBar = { TopBarCompose() },
+        bottomBar = { BottomBarCompose() }
     ) { paddingValues ->
         IBankTheme {
             ContentCompose(paddingValues, user)
@@ -153,6 +158,26 @@ private fun AvatarComposable(user: UIUserModel) {
         text = user.email,
         style = MaterialTheme.typography.labelMedium,
     )
+}
+
+@Composable
+private fun BottomBarCompose() {
+    Column(
+        modifier = Modifier
+            .padding(
+                start = 18.dp,
+                end = 18.dp,
+                bottom = 20.dp,
+            )
+    ) {
+        TapButton(
+            text = stringResource(id = R.string.logout),
+            buttonStyle = ButtonStyle.Secondary,
+            size = ButtonSize.Normal,
+            modifier = Modifier,
+            onClick = {}
+        )
+    }
 }
 
 @Preview(showBackground = true)
