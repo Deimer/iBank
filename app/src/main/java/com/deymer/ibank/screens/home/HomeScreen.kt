@@ -57,7 +57,7 @@ fun HomeScreen(
 }
 
 @Composable
-fun TopBarCompose() {
+private fun TopBarCompose() {
     TopBar(
         title = "Hi, user",
         modifier = Modifier,
@@ -72,7 +72,7 @@ fun TopBarCompose() {
 }
 
 @Composable
-fun ContentCompose(
+private fun ContentCompose(
     paddingValues: PaddingValues,
     options: List<UIOptionModel>,
     transactions: List<UITransactionModel>,
@@ -94,7 +94,7 @@ fun ContentCompose(
         ) {
             BalanceCardCompose(
                 modifier = Modifier.padding(end = 18.dp),
-                balance = "$500"
+                balance = stringResource(id = R.string.initial_balance)
             )
             Text(
                 modifier = Modifier.padding(top = 16.dp),
@@ -119,9 +119,9 @@ fun ContentCompose(
 }
 
 @Composable
-fun BalanceCardCompose(
+private fun BalanceCardCompose(
     modifier: Modifier = Modifier,
-    balance: String = stringResource(id = R.string.initial_balance)
+    balance: String
 ) {
     Card(
         modifier = modifier,
@@ -159,7 +159,7 @@ fun BalanceCardCompose(
 }
 
 @Composable
-fun RechargeOptionsCompose(
+private fun RechargeOptionsCompose(
     options: List<UIOptionModel>,
     modifier: Modifier = Modifier
 ) {
@@ -174,7 +174,7 @@ fun RechargeOptionsCompose(
 }
 
 @Composable
-fun TransactionItemsCompose(
+private fun TransactionItemsCompose(
     transactions: List<UITransactionModel>,
     modifier: Modifier = Modifier
 ) {
@@ -190,7 +190,7 @@ fun TransactionItemsCompose(
 
 @Preview(showBackground = true)
 @Composable
-fun HomeScreenPreview() {
+private fun HomeScreenPreview() {
     IBankTheme {
         HomeScreen(
             listOf(

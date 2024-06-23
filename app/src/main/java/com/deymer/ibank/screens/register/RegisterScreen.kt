@@ -48,7 +48,7 @@ fun RegisterScreen() {
 }
 
 @Composable
-fun TopBarCompose() {
+private fun TopBarCompose() {
     TopBar(
         title = stringResource(id = R.string.create_account),
         modifier = Modifier,
@@ -56,7 +56,7 @@ fun TopBarCompose() {
 }
 
 @Composable
-fun ContentCompose(paddingValues: PaddingValues) {
+private fun ContentCompose(paddingValues: PaddingValues) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -107,7 +107,7 @@ fun ContentCompose(paddingValues: PaddingValues) {
 }
 
 @Composable
-fun AddDocumentSectionCompose() {
+private fun AddDocumentSectionCompose() {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -150,7 +150,7 @@ fun AddDocumentSectionCompose() {
 }
 
 @Composable
-fun BottomBarCompose() {
+private fun BottomBarCompose() {
     Column(
         modifier = Modifier
             .padding(
@@ -188,7 +188,7 @@ fun BottomBarCompose() {
 
 @Preview(showBackground = true)
 @Composable
-fun RegisterScreenPreview() {
+private fun RegisterScreenPreview() {
     IBankTheme {
         RegisterScreen()
     }

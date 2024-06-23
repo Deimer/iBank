@@ -50,9 +50,9 @@
     <string name="transaction_details">Transaction details</string>
     <string name="your_profile">Your profile</string>
     <string name="account_details">Account details</string>
-    <string name="account_number">Account number:\n %1$s</string>
-    <string name="account_date">Creation date:\n %1$s</string>
-    <string name="account_transactions">Completed transactions:\n %1$s</string>
+    <string name="account_number">Account number</string>
+    <string name="account_date">Creation date</string>
+    <string name="account_transactions">Completed transactions</string>
     <string name="logout">Logout</string>
     <string name="do_a_recharge">Do a recharge</string>
     <string name="account_number_to_recharge">Account number to reload</string>
