@@ -38,7 +38,7 @@ fun SplashScreen() {
 }
 
 @Composable
-fun BodyContent(paddingValues: PaddingValues) {
+private fun BodyContent(paddingValues: PaddingValues) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -77,7 +77,7 @@ fun BodyContent(paddingValues: PaddingValues) {
 }
 
 @Composable
-fun BottomBarCompose() {
+private fun BottomBarCompose() {
     TapButton(
         text = stringResource(id = R.string.continue_text),
         buttonStyle = ButtonStyle.Primary,
@@ -93,7 +93,7 @@ fun BottomBarCompose() {
 
 @Preview(showBackground = true)
 @Composable
-fun SplashScreenPreview() {
+private fun SplashScreenPreview() {
     IBankTheme {
         SplashScreen()
     }

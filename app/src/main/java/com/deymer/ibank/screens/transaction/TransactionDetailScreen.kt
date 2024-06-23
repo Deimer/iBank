@@ -38,7 +38,7 @@ fun TransactionDetailScreen(
 }
 
 @Composable
-fun TopBarCompose() {
+private fun TopBarCompose() {
     TopBar(
         modifier = Modifier,
         subtitle = stringResource(id = R.string.transaction_details),
@@ -48,7 +48,7 @@ fun TopBarCompose() {
 }
 
 @Composable
-fun ContentCompose(
+private fun ContentCompose(
     paddingValues: PaddingValues,
     transaction: UITransactionModel,
 ) {
@@ -150,7 +150,7 @@ fun ContentCompose(
 
 @Preview(showBackground = true)
 @Composable
-fun TransactionDetailScreenPreview() {
+private fun TransactionDetailScreenPreview() {
     IBankTheme {
         TransactionDetailScreen(
             UITransactionModel(

@@ -43,7 +43,7 @@ fun LoginScreen() {
 }
 
 @Composable
-fun TopBarCompose() {
+private fun TopBarCompose() {
     TopBar(
         title = stringResource(id = R.string.log_in),
         modifier = Modifier,
@@ -51,7 +51,7 @@ fun TopBarCompose() {
 }
 
 @Composable
-fun ContentCompose(paddingValues: PaddingValues) {
+private fun ContentCompose(paddingValues: PaddingValues) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -83,7 +83,7 @@ fun ContentCompose(paddingValues: PaddingValues) {
 }
 
 @Composable
-fun BottomBarCompose() {
+private fun BottomBarCompose() {
     Column(
         modifier = Modifier
             .padding(
@@ -121,7 +121,7 @@ fun BottomBarCompose() {
 
 @Preview(showBackground = true)
 @Composable
-fun LoginScreenPreview() {
+private fun LoginScreenPreview() {
     IBankTheme {
         LoginScreen()
     }
