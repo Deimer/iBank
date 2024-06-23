@@ -1,5 +1,6 @@
-package com.deymer.ibank.screens.login
+package com.deymer.ibank.screens.register
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -9,12 +10,15 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
@@ -22,16 +26,17 @@ import androidx.compose.ui.unit.dp
 import com.deymer.ibank.ui.colors.snow
 import com.deymer.ibank.ui.components.ButtonSize
 import com.deymer.ibank.ui.components.ButtonStyle
+import com.deymer.ibank.ui.components.EditText
 import com.deymer.ibank.ui.components.EmailEditText
 import com.deymer.ibank.ui.components.PasswordEditText
 import com.deymer.ibank.ui.components.Tag
 import com.deymer.ibank.ui.components.TapButton
-import com.deymer.presentation.R
 import com.deymer.ibank.ui.components.TopBar
 import com.deymer.ibank.ui.theme.IBankTheme
+import com.deymer.presentation.R
 
 @Composable
-fun LoginScreen() {
+fun RegisterScreen() {
     Scaffold(
         topBar = { TopBarCompose() },
         bottomBar = { BottomBarCompose() }
@@ -45,7 +50,7 @@ fun LoginScreen() {
 @Composable
 fun TopBarCompose() {
     TopBar(
-        title = stringResource(id = R.string.log_in),
+        title = stringResource(id = R.string.create_account),
         modifier = Modifier,
         navigationIconContent = {}
     )
@@ -75,10 +80,72 @@ fun ContentCompose(paddingValues: PaddingValues) {
                 imeAction = ImeAction.Next,
             )
             PasswordEditText(
-                label = stringResource(id = R.string.password),
-                placeholder = stringResource(id = R.string.password),
+                label = stringResource(id = R.string.password_register_hint),
+                placeholder = stringResource(id = R.string.password_register),
+                modifier = Modifier.padding(top = 16.dp),
+                imeAction = ImeAction.Next,
+            )
+            PasswordEditText(
+                label = stringResource(id = R.string.confirm_password),
+                placeholder = stringResource(id = R.string.confirm_password),
+                modifier = Modifier.padding(top = 16.dp),
+                imeAction = ImeAction.Next,
+            )
+            EditText(
+                label = stringResource(id = R.string.first_name),
+                placeholder = stringResource(id = R.string.first_name),
+                modifier = Modifier.padding(top = 16.dp),
+                imeAction = ImeAction.Next,
+            )
+            EditText(
+                label = stringResource(id = R.string.last_name),
+                placeholder = stringResource(id = R.string.last_name),
                 modifier = Modifier.padding(top = 16.dp)
             )
+            AddDocumentSectionCompose()
+        }
+    }
+}
+
+@Composable
+fun AddDocumentSectionCompose() {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 32.dp),
+    ) {
+        Text(
+            text = stringResource(id = R.string.upload_photo_document_id),
+            style = MaterialTheme.typography.labelLarge
+        )
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 16.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            IconButton(
+                onClick = {},
+                modifier = Modifier.size(65.dp)
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.ic_file),
+                    contentDescription = stringResource(id = R.string.take_a_photo),
+                )
+            }
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+                Text(
+                    text = stringResource(id = R.string.take_a_photo),
+                    style = MaterialTheme.typography.labelLarge,
+                )
+                Text(
+                    text = stringResource(id = R.string.initial_photo_size),
+                    style = MaterialTheme.typography.labelSmall,
+                )
+            }
         }
     }
 }
@@ -94,7 +161,7 @@ fun BottomBarCompose() {
             )
     ) {
         TapButton(
-            text = stringResource(id = R.string.log_in),
+            text = stringResource(id = R.string.create_your_account),
             buttonStyle = ButtonStyle.Secondary,
             size = ButtonSize.Normal,
             modifier = Modifier,
@@ -108,11 +175,11 @@ fun BottomBarCompose() {
             horizontalArrangement = Arrangement.Center
         ) {
             Text(
-                text = stringResource(id = R.string.are_you_not_user_yet),
+                text = stringResource(id = R.string.already_a_user),
                 style = MaterialTheme.typography.labelMedium
             )
             Tag(
-                text = stringResource(id = R.string.create_account),
+                text = stringResource(id = R.string.sign_in_register),
                 modifier = Modifier.padding(start = 4.dp),
                 onClick = {}
             )
@@ -122,8 +189,8 @@ fun BottomBarCompose() {
 
 @Preview(showBackground = true)
 @Composable
-fun LoginScreenPreview() {
+fun RegisterScreenPreview() {
     IBankTheme {
-        LoginScreen()
+        RegisterScreen()
     }
 }
