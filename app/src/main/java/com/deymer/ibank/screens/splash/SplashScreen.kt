@@ -24,13 +24,16 @@ import com.deymer.ibank.ui.colors.snow
 import com.deymer.ibank.ui.components.ButtonSize
 import com.deymer.ibank.ui.components.ButtonStyle
 import com.deymer.ibank.ui.components.TapButton
+import com.deymer.ibank.ui.theme.IBankTheme
 
 @Composable
 fun SplashScreen() {
     Scaffold(
         bottomBar = { BottomBarCompose() }
     ) { paddingValues ->
-        BodyContent(paddingValues)
+        IBankTheme {
+            BodyContent(paddingValues)
+        }
     }
 }
 
@@ -91,5 +94,7 @@ fun BottomBarCompose() {
 @Preview(showBackground = true)
 @Composable
 fun SplashScreenPreview() {
-    SplashScreen()
+    IBankTheme {
+        SplashScreen()
+    }
 }
