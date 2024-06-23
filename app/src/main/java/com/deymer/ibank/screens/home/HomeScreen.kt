@@ -61,7 +61,6 @@ fun TopBarCompose() {
     TopBar(
         title = "Hi, user",
         modifier = Modifier,
-        navigationIconContent = {},
         actions = listOf(
             UiActionModel(
                 icon = R.drawable.ic_profile,

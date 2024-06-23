@@ -52,7 +52,6 @@ fun TopBarCompose() {
     TopBar(
         title = stringResource(id = R.string.create_account),
         modifier = Modifier,
-        navigationIconContent = {}
     )
 }
 

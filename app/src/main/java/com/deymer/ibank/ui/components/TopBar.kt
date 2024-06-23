@@ -1,6 +1,6 @@
 package com.deymer.ibank.ui.components
 
-import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -16,57 +16,69 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.deymer.ibank.ui.colors.snow
 import com.deymer.ibank.ui.models.UiActionModel
+import com.deymer.ibank.ui.theme.IBankTheme
 import com.deymer.presentation.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopBar(
-    title: String,
     modifier: Modifier = Modifier,
-    showNavigationIcon: Boolean = false,
-    navigationIconContent: @Composable () -> Unit = {},
+    title: String = "",
+    subtitle: String = "",
+    navigationIcon: Int? = null,
+    onNavigationClick: (() -> Unit)? = null,
     actions: List<UiActionModel> = emptyList()
 ) {
-    TopAppBar(
-        title = { Text(title, style = MaterialTheme.typography.headlineLarge) },
-        modifier = modifier.padding(top = 20.dp),
-        colors = TopAppBarDefaults.topAppBarColors(containerColor = snow),
-        navigationIcon = {
-            if (showNavigationIcon) {
-                navigationIconContent()
-            }
-        },
-        actions = {
-            actions.forEach { action ->
-                IconButton(onClick = action.onClick) {
-                    Icon(
-                        painter = painterResource(id = action.icon),
-                        contentDescription = action.contentDescription
-                    )
+    Column {
+        TopAppBar(
+            title = { Text(title, style = MaterialTheme.typography.headlineLarge) },
+            modifier = modifier.padding(top = 20.dp),
+            colors = TopAppBarDefaults.topAppBarColors(containerColor = snow),
+            navigationIcon = {
+                if (navigationIcon != null && onNavigationClick != null) {
+                    IconButton(onClick = onNavigationClick) {
+                        Icon(
+                            painter = painterResource(id = navigationIcon),
+                            contentDescription = ""
+                        )
+                    }
+                }
+            },
+            actions = {
+                actions.forEach { action ->
+                    IconButton(onClick = action.onClick) {
+                        Icon(
+                            painter = painterResource(id = action.icon),
+                            contentDescription = action.contentDescription
+                        )
+                    }
                 }
             }
+        )
+        if (subtitle.isNotEmpty()) {
+            Text(
+                text = subtitle,
+                style = MaterialTheme.typography.headlineMedium,
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 12.dp)
+            )
         }
-    )
+    }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun CustomTopBarPreview() {
-    TopBar(
-        title = "Title",
-        showNavigationIcon = false,
-        navigationIconContent = {
-            IconButton(onClick = {  }) {
-                val image = painterResource(id = R.drawable.ic_back)
-                Icon(image, contentDescription = "Profile")
-            }
-        },
-        actions = listOf(
-            UiActionModel(
-                icon = R.drawable.ic_profile,
-                contentDescription = "profile",
-                onClick = {}
+    IBankTheme {
+        TopBar(
+            title = "Title",
+            subtitle = "Subtitle",
+            actions = listOf(
+                UiActionModel(
+                    icon = R.drawable.ic_profile,
+                    contentDescription = "profile",
+                    onClick = {}
+                )
             )
         )
-    )
+    }
 }
