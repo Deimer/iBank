@@ -17,14 +17,14 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.deymer.ibank.ui.colors.dark40
+import com.deymer.ibank.ui.colors.black60
 import com.deymer.ibank.ui.colors.dark60
 import com.deymer.ibank.ui.colors.melon
 import com.deymer.ibank.ui.colors.snow
 import com.deymer.ibank.ui.theme.poppinsFamily
 
-enum class ButtonStyle { Primary, Secondary }
-enum class ButtonSize { Normal, Small }
+enum class ButtonStyle { Primary, Secondary, Tertiary }
+enum class ButtonSize { Normal, Small, Mini }
 
 @Composable
 fun TapButton(
@@ -43,6 +43,10 @@ fun TapButton(
             contentColor = dark60,
             containerColor = snow
         )
+        ButtonStyle.Tertiary -> ButtonDefaults.buttonColors(
+            containerColor = black60,
+            contentColor = snow
+        )
     }
     val buttonPadding = when (size) {
         ButtonSize.Normal -> PaddingValues(
@@ -50,6 +54,7 @@ fun TapButton(
             vertical = 12.dp
         )
         ButtonSize.Small -> PaddingValues(all = 8.dp)
+        ButtonSize.Mini -> PaddingValues(all = 4.dp)
     }
     val tapButtonStyle = when (size) {
         ButtonSize.Normal -> TextStyle(
@@ -60,14 +65,20 @@ fun TapButton(
             fontSize = 14.sp,
             fontFamily = poppinsFamily
         )
+        ButtonSize.Mini -> TextStyle(
+            fontSize = 12.sp,
+            fontFamily = poppinsFamily
+        )
     }
     val buttonShape = when (size) {
         ButtonSize.Normal -> RoundedCornerShape(12.dp)
         ButtonSize.Small -> RoundedCornerShape(8.dp)
+        ButtonSize.Mini -> RoundedCornerShape(20.dp)
     }
     val buttonWidth = when (size) {
         ButtonSize.Normal -> Modifier.fillMaxWidth()
-        ButtonSize.Small -> Modifier.width(120.dp)
+        ButtonSize.Small -> Modifier.width(140.dp)
+        ButtonSize.Mini -> Modifier.width(90.dp)
     }
     when (buttonStyle) {
         ButtonStyle.Primary -> {
@@ -95,6 +106,17 @@ fun TapButton(
                 Text(text, style = tapButtonStyle)
             }
         }
+        ButtonStyle.Tertiary -> {
+            Button(
+                onClick = onClick,
+                modifier = modifier.then(buttonWidth),
+                shape = buttonShape,
+                colors = buttonColors,
+                contentPadding = buttonPadding
+            ) {
+                Text(text, style = tapButtonStyle)
+            }
+        }
     }
 }
 
@@ -114,7 +136,14 @@ fun TapButtonPreview() {
         TapButton(
             text = "Secondary Button",
             buttonStyle = ButtonStyle.Secondary,
-            size = ButtonSize.Normal,
+            size = ButtonSize.Small,
+            modifier = Modifier.padding(all = 12.dp),
+            onClick = {}
+        )
+        TapButton(
+            text = "Tertiary",
+            buttonStyle = ButtonStyle.Tertiary,
+            size = ButtonSize.Mini,
             modifier = Modifier.padding(all = 12.dp),
             onClick = {}
         )

@@ -51,6 +51,12 @@ val AppTypography = Typography(
         letterSpacing = 0.5.sp
     ),
 
+    bodySmall = TextStyle(
+        fontFamily = poppinsFamily,
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 12.sp
+    ),
+
     labelLarge = TextStyle(
         fontFamily = poppinsFamily,
         fontWeight = FontWeight.SemiBold,
