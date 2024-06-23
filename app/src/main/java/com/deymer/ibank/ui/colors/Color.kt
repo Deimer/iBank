@@ -32,6 +32,7 @@ val bloodRedLightest = Color(0xFFFFECEC)
 
 // Other colors
 val seaGreen = Color(0xFF279061)
+val darkMidnightBlueLight = Color(0xFF003166)
 
 // Grayscale colors
 val black = Color(0xFF000000)
