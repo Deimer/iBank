@@ -1,4 +1,4 @@
-package com.deymer.ibank.screens.home
+package com.deymer.ibank.features.home
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image

@@ -1,4 +1,4 @@
-package com.deymer.ibank.screens.register
+package com.deymer.ibank.features.register
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -36,13 +36,15 @@ import com.deymer.ibank.ui.theme.IBankTheme
 import com.deymer.presentation.R
 
 @Composable
-fun RegisterScreen() {
+fun RegisterScreen(
+    registerScreenAttributes: RegisterScreenAttributes
+) {
     Scaffold(
         topBar = { TopBarCompose() },
-        bottomBar = { BottomBarCompose() }
+        bottomBar = { BottomBarCompose(registerScreenAttributes) }
     ) { paddingValues ->
         IBankTheme {
-            ContentCompose(paddingValues)
+            ContentCompose(paddingValues, registerScreenAttributes)
         }
     }
 }
@@ -56,7 +58,10 @@ private fun TopBarCompose() {
 }
 
 @Composable
-private fun ContentCompose(paddingValues: PaddingValues) {
+private fun ContentCompose(
+    paddingValues: PaddingValues,
+    registerScreenAttributes: RegisterScreenAttributes
+) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -101,13 +106,15 @@ private fun ContentCompose(paddingValues: PaddingValues) {
                 placeholder = stringResource(id = R.string.last_name),
                 modifier = Modifier.padding(top = 16.dp)
             )
-            AddDocumentSectionCompose()
+            AddDocumentSectionCompose(registerScreenAttributes)
         }
     }
 }
 
 @Composable
-private fun AddDocumentSectionCompose() {
+private fun AddDocumentSectionCompose(
+    registerScreenAttributes: RegisterScreenAttributes
+) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -124,7 +131,7 @@ private fun AddDocumentSectionCompose() {
             verticalAlignment = Alignment.CenterVertically,
         ) {
             IconButton(
-                onClick = {},
+                onClick = { registerScreenAttributes.onTakePhotoClick },
                 modifier = Modifier.size(65.dp)
             ) {
                 Image(
@@ -133,8 +140,7 @@ private fun AddDocumentSectionCompose() {
                 )
             }
             Column(
-                modifier = Modifier
-                    .fillMaxWidth()
+                modifier = Modifier.fillMaxWidth()
             ) {
                 Text(
                     text = stringResource(id = R.string.take_a_photo),
@@ -150,7 +156,9 @@ private fun AddDocumentSectionCompose() {
 }
 
 @Composable
-private fun BottomBarCompose() {
+private fun BottomBarCompose(
+    registerScreenAttributes: RegisterScreenAttributes
+) {
     Column(
         modifier = Modifier
             .padding(
@@ -164,7 +172,7 @@ private fun BottomBarCompose() {
             buttonStyle = ButtonStyle.Secondary,
             size = ButtonSize.Normal,
             modifier = Modifier,
-            onClick = {}
+            onClick = { registerScreenAttributes.onRegisterClick }
         )
         Row(
             modifier = Modifier
@@ -180,7 +188,7 @@ private fun BottomBarCompose() {
             Tag(
                 text = stringResource(id = R.string.sign_in_register),
                 modifier = Modifier.padding(start = 4.dp),
-                onClick = {}
+                onClick = registerScreenAttributes.onNavigateToLogin
             )
         }
     }
@@ -190,6 +198,14 @@ private fun BottomBarCompose() {
 @Composable
 private fun RegisterScreenPreview() {
     IBankTheme {
-        RegisterScreen()
+        RegisterScreen(
+            RegisterScreenAttributes(
+                onNavigateToLogin = {},
+                onRegisterClick = { _, _, _, _, _ -> },
+                onTakePhotoClick = {},
+                photoUri = null,
+                photoSize = "",
+            )
+        )
     }
 }

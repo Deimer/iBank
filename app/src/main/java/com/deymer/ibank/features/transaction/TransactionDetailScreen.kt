@@ -1,4 +1,4 @@
-package com.deymer.ibank.screens.transaction
+package com.deymer.ibank.features.transaction
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

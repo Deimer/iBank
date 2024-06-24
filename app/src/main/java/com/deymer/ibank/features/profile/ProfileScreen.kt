@@ -1,4 +1,4 @@
-package com.deymer.ibank.screens.profile
+package com.deymer.ibank.features.profile
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -26,7 +26,6 @@ import com.deymer.ibank.ui.colors.dark20
 import com.deymer.ibank.ui.colors.snow
 import com.deymer.ibank.ui.components.ButtonSize
 import com.deymer.ibank.ui.components.ButtonStyle
-import com.deymer.ibank.ui.components.Tag
 import com.deymer.ibank.ui.components.TapButton
 import com.deymer.ibank.ui.components.TopBar
 import com.deymer.ibank.ui.models.UIUserModel

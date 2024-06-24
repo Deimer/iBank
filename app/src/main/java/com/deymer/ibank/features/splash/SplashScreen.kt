@@ -1,4 +1,4 @@
-package com.deymer.ibank.screens.splash
+package com.deymer.ibank.features.splash
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -27,9 +27,9 @@ import com.deymer.ibank.ui.components.TapButton
 import com.deymer.ibank.ui.theme.IBankTheme
 
 @Composable
-fun SplashScreen() {
+fun SplashScreen(splashScreenAttributes: SplashScreenAttributes) {
     Scaffold(
-        bottomBar = { BottomBarCompose() }
+        bottomBar = { BottomBarCompose(splashScreenAttributes) }
     ) { paddingValues ->
         IBankTheme {
             BodyContent(paddingValues)
@@ -38,7 +38,9 @@ fun SplashScreen() {
 }
 
 @Composable
-private fun BodyContent(paddingValues: PaddingValues) {
+private fun BodyContent(
+    paddingValues: PaddingValues
+) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -77,7 +79,9 @@ private fun BodyContent(paddingValues: PaddingValues) {
 }
 
 @Composable
-private fun BottomBarCompose() {
+private fun BottomBarCompose(
+    splashScreenAttributes: SplashScreenAttributes
+) {
     TapButton(
         text = stringResource(id = R.string.continue_text),
         buttonStyle = ButtonStyle.Primary,
@@ -87,7 +91,7 @@ private fun BottomBarCompose() {
             end = 12.dp,
             bottom = 32.dp,
         ),
-        onClick = {}
+        onClick = splashScreenAttributes.onNavigateToLogin
     )
 }
 
@@ -95,6 +99,6 @@ private fun BottomBarCompose() {
 @Composable
 private fun SplashScreenPreview() {
     IBankTheme {
-        SplashScreen()
+        SplashScreen(SplashScreenAttributes(onNavigateToLogin = {}))
     }
 }
