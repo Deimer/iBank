@@ -83,7 +83,7 @@ fun TapButton(
     when (buttonStyle) {
         ButtonStyle.Primary -> {
             Button(
-                onClick = {},
+                onClick = onClick,
                 modifier = modifier
                     .then(buttonWidth),
                 shape = buttonShape,

@@ -1,4 +1,4 @@
-package com.deymer.ibank.screens.login
+package com.deymer.ibank.features.login
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -31,10 +31,10 @@ import com.deymer.ibank.ui.components.TopBar
 import com.deymer.ibank.ui.theme.IBankTheme
 
 @Composable
-fun LoginScreen() {
+fun LoginScreen(loginScreenAttributes: LoginScreenAttributes) {
     Scaffold(
         topBar = { TopBarCompose() },
-        bottomBar = { BottomBarCompose() }
+        bottomBar = { BottomBarCompose(loginScreenAttributes) }
     ) { paddingValues ->
         IBankTheme {
             ContentCompose(paddingValues)
@@ -83,7 +83,9 @@ private fun ContentCompose(paddingValues: PaddingValues) {
 }
 
 @Composable
-private fun BottomBarCompose() {
+private fun BottomBarCompose(
+    loginScreenAttributes: LoginScreenAttributes
+) {
     Column(
         modifier = Modifier
             .padding(
@@ -97,7 +99,7 @@ private fun BottomBarCompose() {
             buttonStyle = ButtonStyle.Secondary,
             size = ButtonSize.Normal,
             modifier = Modifier,
-            onClick = {}
+            onClick = { loginScreenAttributes.onLoginClick }
         )
         Row(
             modifier = Modifier
@@ -113,7 +115,7 @@ private fun BottomBarCompose() {
             Tag(
                 text = stringResource(id = R.string.create_account),
                 modifier = Modifier.padding(start = 4.dp),
-                onClick = {}
+                onClick = loginScreenAttributes.onNavigateToRegister
             )
         }
     }
@@ -123,6 +125,11 @@ private fun BottomBarCompose() {
 @Composable
 private fun LoginScreenPreview() {
     IBankTheme {
-        LoginScreen()
+        LoginScreen(
+            LoginScreenAttributes(
+                onNavigateToRegister = {},
+                onLoginClick = { _, _ ->}
+            )
+        )
     }
 }

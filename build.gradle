@@ -35,8 +35,6 @@ buildscript {
     dependencies {
         //Hilt
         classpath "com.google.dagger:hilt-android-gradle-plugin:$hilt_version"
-        //NavGraph
-        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version"
         //Google services
         classpath "com.google.gms:google-services:$google_services"
     }
