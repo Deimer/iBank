@@ -12,6 +12,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -21,16 +22,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.deymer.presentation.R
 import com.deymer.ibank.ui.colors.snow
-import com.deymer.ibank.ui.components.ButtonSize
-import com.deymer.ibank.ui.components.ButtonStyle
-import com.deymer.ibank.ui.components.TapButton
 import com.deymer.ibank.ui.theme.IBankTheme
+import kotlinx.coroutines.delay
 
 @Composable
-fun SplashScreen(splashScreenAttributes: SplashScreenAttributes) {
-    Scaffold(
-        bottomBar = { BottomBarCompose(splashScreenAttributes) }
-    ) { paddingValues ->
+fun SplashScreen(actions: SplashScreenActions) {
+    LaunchedEffect(key1 = true) {
+        delay(3000)
+        actions.onPrimaryAction.invoke()
+    }
+    Scaffold { paddingValues ->
         IBankTheme {
             BodyContent(paddingValues)
         }
@@ -58,7 +59,7 @@ private fun BodyContent(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(bottom = 60.dp),
+                .padding(bottom = 100.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Bottom
         ) {
@@ -78,27 +79,10 @@ private fun BodyContent(
     }
 }
 
-@Composable
-private fun BottomBarCompose(
-    splashScreenAttributes: SplashScreenAttributes
-) {
-    TapButton(
-        text = stringResource(id = R.string.continue_text),
-        buttonStyle = ButtonStyle.Primary,
-        size = ButtonSize.Normal,
-        modifier = Modifier.padding(
-            start = 12.dp,
-            end = 12.dp,
-            bottom = 32.dp,
-        ),
-        onClick = splashScreenAttributes.onNavigateToLogin
-    )
-}
-
 @Preview(showBackground = true)
 @Composable
 private fun SplashScreenPreview() {
     IBankTheme {
-        SplashScreen(SplashScreenAttributes(onNavigateToLogin = {}))
+        SplashScreen(SplashScreenActions(onPrimaryAction = {}))
     }
 }

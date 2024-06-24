@@ -16,6 +16,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -23,6 +27,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.deymer.ibank.ui.colors.snow
 import com.deymer.ibank.ui.components.ButtonSize
 import com.deymer.ibank.ui.components.ButtonStyle
@@ -37,15 +42,37 @@ import com.deymer.presentation.R
 
 @Composable
 fun RegisterScreen(
-    registerScreenAttributes: RegisterScreenAttributes
+    viewModel: RegisterViewModel = hiltViewModel(),
+    actions: RegisterScreenActions
 ) {
+    var email by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+    var confirmPassword by remember { mutableStateOf("") }
+    var firstName by remember { mutableStateOf("") }
+    var lastName by remember { mutableStateOf("") }
     Scaffold(
         topBar = { TopBarCompose() },
-        bottomBar = { BottomBarCompose(registerScreenAttributes) }
+        bottomBar = { BottomBarCompose(
+            onRegisterClick = { viewModel.register(
+                email, password, confirmPassword, firstName, lastName, null
+            ) },
+            actions.onPrimaryAction
+        ) }
     ) { paddingValues ->
-        IBankTheme {
-            ContentCompose(paddingValues, registerScreenAttributes)
-        }
+        ContentCompose(
+            paddingValues,
+            email,
+            password,
+            confirmPassword,
+            firstName,
+            lastName,
+            onEmailChange = { email = it },
+            onPasswordChange = { password = it },
+            onConfirmPasswordChange = { confirmPassword = it },
+            onFirstNameChange = { firstName = it },
+            onLastNameChange = { lastName = it },
+            actions
+        )
     }
 }
 
@@ -60,8 +87,19 @@ private fun TopBarCompose() {
 @Composable
 private fun ContentCompose(
     paddingValues: PaddingValues,
-    registerScreenAttributes: RegisterScreenAttributes
+    email: String,
+    password: String,
+    confirmPassword: String,
+    firstName: String,
+    lastName: String,
+    onEmailChange: (String) -> Unit,
+    onPasswordChange: (String) -> Unit,
+    onConfirmPasswordChange: (String) -> Unit,
+    onFirstNameChange: (String) -> Unit,
+    onLastNameChange: (String) -> Unit,
+    registerScreenActions: RegisterScreenActions
 ) {
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -80,40 +118,52 @@ private fun ContentCompose(
         ) {
             EmailEditText(
                 label = stringResource(id = R.string.email),
+                value = email,
+                onValueChange = onEmailChange,
                 placeholder = stringResource(id = R.string.email_example),
                 imeAction = ImeAction.Next,
             )
             PasswordEditText(
                 label = stringResource(id = R.string.password_register_hint),
+                value = password,
+                onValueChange = onPasswordChange,
                 placeholder = stringResource(id = R.string.password_register),
                 modifier = Modifier.padding(top = 16.dp),
                 imeAction = ImeAction.Next,
             )
             PasswordEditText(
                 label = stringResource(id = R.string.confirm_password),
+                value = confirmPassword,
+                onValueChange = onConfirmPasswordChange,
                 placeholder = stringResource(id = R.string.confirm_password),
                 modifier = Modifier.padding(top = 16.dp),
                 imeAction = ImeAction.Next,
             )
             EditText(
                 label = stringResource(id = R.string.first_name),
+                value = firstName,
+                onValueChange = onFirstNameChange,
                 placeholder = stringResource(id = R.string.first_name),
                 modifier = Modifier.padding(top = 16.dp),
                 imeAction = ImeAction.Next,
             )
             EditText(
                 label = stringResource(id = R.string.last_name),
+                value = lastName,
+                onValueChange = onLastNameChange,
                 placeholder = stringResource(id = R.string.last_name),
                 modifier = Modifier.padding(top = 16.dp)
             )
-            AddDocumentSectionCompose(registerScreenAttributes)
+            AddDocumentSectionCompose(
+                registerScreenActions.onSecondaryAction
+            )
         }
     }
 }
 
 @Composable
 private fun AddDocumentSectionCompose(
-    registerScreenAttributes: RegisterScreenAttributes
+    onTakePhotoClick: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -131,7 +181,7 @@ private fun AddDocumentSectionCompose(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             IconButton(
-                onClick = { registerScreenAttributes.onTakePhotoClick },
+                onClick = onTakePhotoClick,
                 modifier = Modifier.size(65.dp)
             ) {
                 Image(
@@ -157,7 +207,8 @@ private fun AddDocumentSectionCompose(
 
 @Composable
 private fun BottomBarCompose(
-    registerScreenAttributes: RegisterScreenAttributes
+    onRegisterClick: () -> Unit,
+    onNavigateToLogin: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -172,7 +223,7 @@ private fun BottomBarCompose(
             buttonStyle = ButtonStyle.Secondary,
             size = ButtonSize.Normal,
             modifier = Modifier,
-            onClick = { registerScreenAttributes.onRegisterClick }
+            onClick = onRegisterClick
         )
         Row(
             modifier = Modifier
@@ -188,7 +239,7 @@ private fun BottomBarCompose(
             Tag(
                 text = stringResource(id = R.string.sign_in_register),
                 modifier = Modifier.padding(start = 4.dp),
-                onClick = registerScreenAttributes.onNavigateToLogin
+                onClick = onNavigateToLogin
             )
         }
     }
@@ -199,12 +250,9 @@ private fun BottomBarCompose(
 private fun RegisterScreenPreview() {
     IBankTheme {
         RegisterScreen(
-            RegisterScreenAttributes(
-                onNavigateToLogin = {},
-                onRegisterClick = { _, _, _, _, _ -> },
-                onTakePhotoClick = {},
-                photoUri = null,
-                photoSize = "",
+            actions = RegisterScreenActions(
+                onPrimaryAction = {},
+                onSecondaryAction = {},
             )
         )
     }

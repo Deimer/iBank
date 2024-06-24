@@ -21,23 +21,28 @@ class RegisterViewModel @Inject constructor(
     fun register(
         email: String,
         password: String,
+        confirmPassword: String,
         firstName: String,
         lastName: String,
-        photo: Uri
+        photo: Uri?
     ) {
-        viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                when(val result = registerUseCase.invoke(
-                    email, password, firstName, lastName, photo
-                )) {
-                    is OnResult.Success -> {
+        photo?.let {
+            viewModelScope.launch {
+                withContext(Dispatchers.IO) {
+                    when(val result = registerUseCase.invoke(
+                        email, password, firstName, lastName, photo
+                    )) {
+                        is OnResult.Success -> {
 
-                    }
-                    is OnResult.Error -> {
+                        }
+                        is OnResult.Error -> {
 
+                        }
                     }
                 }
             }
+        } ?: {
+
         }
     }
 
