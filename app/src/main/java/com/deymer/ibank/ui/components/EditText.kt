@@ -67,6 +67,8 @@ fun textFieldColors(): TextFieldColors {
 @Composable
 fun EditText(
     modifier: Modifier = Modifier,
+    value: String,
+    onValueChange: (String) -> Unit,
     label: String = "",
     placeholder: String = "",
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
@@ -75,11 +77,10 @@ fun EditText(
     visualTransformation: VisualTransformation = VisualTransformation.None,
     trailingIcon: @Composable (() -> Unit)? = null,
 ) {
-    var state by remember { mutableStateOf("") }
     TextField(
         modifier = modifier.fillMaxWidth(),
-        value = state,
-        onValueChange = { state = it },
+        value = value,
+        onValueChange = onValueChange,
         label = { Text(text = label) },
         placeholder = { Text(text = placeholder) },
         trailingIcon = trailingIcon,
@@ -100,6 +101,8 @@ fun EditText(
 fun EditTextPreview() {
     Column(modifier = Modifier.padding(all = 8.dp)) {
         EditText(
+            value = "",
+            onValueChange = {},
             label = "Input sample",
             placeholder = "Input sample"
         )
@@ -109,12 +112,16 @@ fun EditTextPreview() {
 @Composable
 fun EmailEditText(
     modifier: Modifier = Modifier,
+    value: String,
+    onValueChange: (String) -> Unit,
     label: String = "",
     placeholder: String = "",
     imeAction: ImeAction = ImeAction.Done,
 ) {
     EditText(
         modifier = modifier,
+        value = value,
+        onValueChange = onValueChange,
         label = label,
         placeholder = placeholder,
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
@@ -127,6 +134,8 @@ fun EmailEditText(
 fun EmailEditTextPreview() {
     Column(modifier = Modifier.padding(all = 8.dp)) {
         EmailEditText(
+            value = "",
+            onValueChange = {},
             label = "Input sample",
             placeholder = "sample@mail.com",
         )
@@ -136,6 +145,8 @@ fun EmailEditTextPreview() {
 @Composable
 fun PasswordEditText(
     modifier: Modifier = Modifier,
+    value: String,
+    onValueChange: (String) -> Unit,
     label: String = "",
     placeholder: String = "",
     imeAction: ImeAction = ImeAction.Done,
@@ -144,6 +155,8 @@ fun PasswordEditText(
     val visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation()
     EditText(
         modifier = modifier,
+        value = value,
+        onValueChange = onValueChange,
         label = label,
         placeholder = placeholder,
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
@@ -163,6 +176,8 @@ fun PasswordEditText(
 fun PasswordEditTextPreview() {
     Column(modifier = Modifier.padding(all = 8.dp)) {
         PasswordEditText(
+            value = "",
+            onValueChange = {},
             label = "Input sample",
             placeholder = "password",
         )
