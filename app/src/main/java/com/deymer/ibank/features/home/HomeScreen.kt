@@ -43,10 +43,9 @@ import com.deymer.ibank.ui.theme.IBankTheme
 import com.deymer.presentation.R
 
 @Composable
-fun HomeScreen(
-    options: List<UIOptionModel>,
-    transactions: List<UITransactionModel>,
-) {
+fun HomeScreen() {
+    val options: List<UIOptionModel> = emptyList()
+    val transactions: List<UITransactionModel> = emptyList()
     Scaffold(
         topBar = { TopBarCompose() },
     ) { paddingValues ->
@@ -192,42 +191,44 @@ private fun TransactionItemsCompose(
 @Composable
 private fun HomeScreenPreview() {
     IBankTheme {
-        HomeScreen(
-            listOf(
-                UIOptionModel(
-                    icon = R.drawable.ic_egg,
-                    title = stringResource(id = R.string.make_recharge),
-                    buttonText = stringResource(id = R.string.recharge),
-                    backgroundColor = seashell,
-                    onClick = {},
-                ),
-                UIOptionModel(
-                    icon = R.drawable.ic_friends,
-                    title = stringResource(id = R.string.transfer_to_friend),
-                    textColorTitle = white,
-                    buttonText = stringResource(id = R.string.transfer),
-                    backgroundColor = darkMidnightBlueLight,
-                    onClick = {},
-                )
-            ),
-            listOf(
-                UITransactionModel(
-                    icon = R.drawable.ic_deposit,
-                    amount = "25.50 USD",
-                    type = "Deposit",
-                    isWin = true,
-                    shortDate = "03 Nov, 2023",
-                    description = "Description",
-                ),
-                UITransactionModel(
-                    icon = R.drawable.ic_transfer,
-                    amount = "25.50 USD",
-                    type = "Transfer",
-                    isWin = false,
-                    shortDate = "23 Nov, 2024",
-                    description = "Description",
-                )
-            )
-        )
+        HomeScreen()
     }
 }
+
+/*
+listOf(
+    UIOptionModel(
+        icon = R.drawable.ic_egg,
+        title = stringResource(id = R.string.make_recharge),
+        buttonText = stringResource(id = R.string.recharge),
+        backgroundColor = seashell,
+        onClick = {},
+    ),
+    UIOptionModel(
+        icon = R.drawable.ic_friends,
+        title = stringResource(id = R.string.transfer_to_friend),
+        textColorTitle = white,
+        buttonText = stringResource(id = R.string.transfer),
+        backgroundColor = darkMidnightBlueLight,
+        onClick = {},
+    )
+),
+listOf(
+    UITransactionModel(
+        icon = R.drawable.ic_deposit,
+        amount = "25.50 USD",
+        type = "Deposit",
+        isWin = true,
+        shortDate = "03 Nov, 2023",
+        description = "Description",
+    ),
+    UITransactionModel(
+        icon = R.drawable.ic_transfer,
+        amount = "25.50 USD",
+        type = "Transfer",
+        isWin = false,
+        shortDate = "23 Nov, 2024",
+        description = "Description",
+    )
+)
+ */

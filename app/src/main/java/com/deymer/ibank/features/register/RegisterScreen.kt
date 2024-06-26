@@ -152,7 +152,7 @@ private fun BodyCompose(
         topBar = { TopBarCompose() },
         bottomBar = { BottomBarCompose(
             onRegisterClick = { coroutineScope.launch { onRegisterClick.invoke() } },
-            onNavigateToLogin = actions.onPrimaryAction
+            onNavigateToLogin = actions.onSecondaryAction
         ) },
         snackbarHost = { SnackbarHost(snackbarHostState) { data ->
             Snackbar(containerColor = melon, contentColor = black60, snackbarData = data)
@@ -388,7 +388,8 @@ private fun RegisterScreenPreview() {
     IBankTheme {
         RegisterScreen(
             actions = RegisterScreenActions(
-                onPrimaryAction = {}
+                onPrimaryAction = {},
+                onSecondaryAction = {}
             )
         )
     }

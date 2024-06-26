@@ -90,7 +90,6 @@ class RegisterViewModel @Inject constructor(
 
     fun setPhotoUri(uri: Uri?) {
         _registerFormState.value = _registerFormState.value.copy(uriPhoto = mutableStateOf(uri))
-
     }
 
     fun register() {
