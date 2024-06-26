@@ -14,18 +14,16 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Snackbar
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
@@ -51,31 +49,41 @@ fun LoginScreen(
     viewModel: LoginViewModel = hiltViewModel(),
     actions: LoginScreenActions
 ) {
-    val loginUiState by viewModel.loginUiState.collectAsState()
-    if (loginUiState.isLoading) {
-        LoadingCompose()
-    } else {
-        BodyCompose(
-            viewModel, actions
+    val uiState by viewModel.loginUiState.collectAsState()
+    val errorState by viewModel.loginErrorState.collectAsState()
+    val formState by viewModel.loginFormState.collectAsState()
+    when(uiState) {
+        LoginUiState.Success -> actions.onPrimaryAction.invoke()
+        LoginUiState.Loading -> LoadingCompose()
+        LoginUiState.Default -> BodyCompose(
+            errorState,
+            formState,
+            viewModel::onEmailChange,
+            viewModel::onPasswordChange,
+            viewModel::login,
+            actions
         )
     }
 }
 
 @Composable
 private fun BodyCompose(
-    viewModel: LoginViewModel,
-    actions: LoginScreenActions
+    errorState: LoginErrorState,
+    formState: LoginFormState,
+    onEmailChange: (String) -> Unit,
+    onPasswordChange: (String) -> Unit,
+    onLoginClick: () -> Unit,
+    actions: LoginScreenActions,
 ) {
-    val loginUiState by viewModel.loginUiState.collectAsState()
-    var email by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
+
+    val email = formState.email
+    val password = formState.password
     val coroutineScope = rememberCoroutineScope()
-    val snackbarScope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
     Scaffold(
         topBar = { TopBarCompose() },
         bottomBar = { BottomBarCompose(
-            onLoginClick = { coroutineScope.launch { viewModel.login(email, password) } },
+            onLoginClick = { coroutineScope.launch { onLoginClick.invoke() } },
             onNavigateToRegister = actions.onSecondaryAction
         ) },
         snackbarHost = { SnackbarHost(snackbarHostState) { data ->
@@ -83,33 +91,32 @@ private fun BodyCompose(
         } }
     ) { paddingValues ->
         ContentCompose(
-            paddingValues,
-            email,
-            password,
-            onEmailChange = { email = it },
-            onPasswordChange = { password = it }
+            paddingValues = paddingValues,
+            email = email,
+            password = password,
+            onEmailChange = onEmailChange,
+            onPasswordChange = onPasswordChange
         )
-        LaunchedEffect(loginUiState.isLoginSuccessful) {
-            if (loginUiState.isLoginSuccessful) {
-                actions.onPrimaryAction.invoke()
+        ErrorFormCompose(errorState, snackbarHostState)
+    }
+}
+
+@Composable
+private fun ErrorFormCompose(
+    errorState: LoginErrorState,
+    snackbarHostState: SnackbarHostState
+) {
+    val snackbarScope = rememberCoroutineScope()
+    val context = LocalContext.current
+    LaunchedEffect(errorState) {
+        snackbarScope.launch {
+            val message = when(errorState) {
+                is LoginErrorState.Error -> errorState.message
+                LoginErrorState.FormError -> context.getString(R.string.enter_email_and_password)
+                LoginErrorState.EmailError -> context.getString(R.string.please_enter_valid_email)
+                LoginErrorState.PasswordError -> context.getString(R.string.invalid_password)
             }
-        }
-        LaunchedEffect(loginUiState.error) {
-            loginUiState.error?.let { errorMessage ->
-                snackbarScope.launch {
-                    val result = snackbarHostState.showSnackbar(message = errorMessage)
-                    if (result == SnackbarResult.Dismissed) viewModel.clearError()
-                }
-            }
-        }
-        val credentialsError = stringResource(R.string.enter_email_and_password)
-        LaunchedEffect(loginUiState.credentialsError) {
-            if (loginUiState.credentialsError) {
-                snackbarHostState.showSnackbar(
-                    message = credentialsError
-                )
-                viewModel.clearCredentialsError()
-            }
+            message?.let { snackbarHostState.showSnackbar(message = it) }
         }
     }
 }
