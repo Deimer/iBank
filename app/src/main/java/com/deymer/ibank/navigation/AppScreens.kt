@@ -1,5 +1,6 @@
 package com.deymer.ibank.navigation
 
+import com.deymer.ibank.navigation.IBankRoute.AUTH_GRAPH
 import com.deymer.ibank.navigation.IBankRoute.HOME
 import com.deymer.ibank.navigation.IBankRoute.LOGIN
 import com.deymer.ibank.navigation.IBankRoute.PROFILE
@@ -14,12 +15,14 @@ object IBankRoute {
     const val HOME = "home"
     const val TRANSACTION_DETAILS = "transactionDetail"
     const val PROFILE = "profile"
+    const val AUTH_GRAPH = "auth_graph"
 }
 
 sealed class AppScreens(val route: String) {
     object SplashScreen: AppScreens(SPLASH)
     object LoginScreen: AppScreens(LOGIN)
     object RegisterScreen: AppScreens(REGISTER)
+    object AuthGraph: AppScreens(AUTH_GRAPH)
     object HomeScreen: AppScreens(HOME)
     object TransactionDetailScreen: AppScreens(TRANSACTION_DETAILS)
     object ProfileScreen: AppScreens(PROFILE)
