@@ -27,6 +27,8 @@
     <string name="create_your_account">Create your account</string>
     <string name="please_enter_valid_email">Please enter a valid email.</string>
     <string name="you_must_complete_form">You must complete the form before proceeding.</string>
+    <string name="error_empty_first_name">You must enter your first name.</string>
+    <string name="error_empty_last_name">You must enter your last name.</string>
     <string name="invalid_password">Ensure your password is at least 6 characters long and includes a combination of both letters and numbers for enhanced security.</string>
     <string name="passwords_do_not_match">Make sure both passwords match.</string>
     <string name="account_success_created">Your account has been successfully created!</string>
