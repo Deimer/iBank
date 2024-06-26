@@ -1,4 +1,4 @@
-package com.deymer.ibank.ui.utils
+package com.deymer.presentation.utils
 
 import android.util.Patterns
 

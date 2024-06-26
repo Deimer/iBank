@@ -1,5 +1,10 @@
 package com.deymer.ibank.features.register
 
+import android.content.Context
+import android.net.Uri
+import android.os.Environment
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -7,8 +12,10 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
@@ -34,7 +41,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.content.FileProvider
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.airbnb.lottie.compose.LottieConstants
 import com.deymer.ibank.ui.colors.black60
 import com.deymer.ibank.ui.colors.melon
 import com.deymer.ibank.ui.colors.snow
@@ -49,16 +58,32 @@ import com.deymer.ibank.ui.components.TapButton
 import com.deymer.ibank.ui.components.TopBar
 import com.deymer.ibank.ui.theme.IBankTheme
 import com.deymer.presentation.R
+import com.deymer.presentation.extensions.size
 import kotlinx.coroutines.launch
+import java.io.File
 
 @Composable
 fun RegisterScreen(
     viewModel: RegisterViewModel = hiltViewModel(),
     actions: RegisterScreenActions
 ) {
+    val context = LocalContext.current
     val uiState by viewModel.registerUiState.collectAsState()
     val errorState by viewModel.registerErrorState.collectAsState()
     val formState by viewModel.registerFormState.collectAsState()
+    val takePictureLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.TakePicture()
+    ) { success ->
+        if (success) {
+            viewModel.setPhotoUri(formState.uriPhoto.value)
+        }
+    }
+    fun takePhoto() {
+        createImageUri(context)?.let { uri ->
+            viewModel.setPhotoUri(uri)
+            takePictureLauncher.launch(uri)
+        }
+    }
     when(uiState) {
         RegisterUiState.Success -> actions.onPrimaryAction.invoke()
         RegisterUiState.Loading -> LoadingCompose()
@@ -71,8 +96,20 @@ fun RegisterScreen(
             viewModel::onFirstNameChange,
             viewModel::onLastNameChange,
             viewModel::register,
+            { takePhoto() },
             actions
         )
+    }
+}
+
+private fun createImageUri(context: Context): Uri? {
+    val timeStamp: String = System.currentTimeMillis().toString()
+    val storageDir: File? = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+    val authority = "${context.packageName}.provider"
+    return storageDir?.let {
+        val fileName = "JPEG_${timeStamp}_"
+        val file = File.createTempFile(fileName, ".jpg", it)
+        FileProvider.getUriForFile(context, authority, file)
     }
 }
 
@@ -85,7 +122,8 @@ private fun LoadingCompose() {
         Lottie(
             rawRes = R.raw.loading,
             modifier = Modifier.padding(top = 20.dp),
-            size = 100.dp
+            size = 100.dp,
+            iterations = LottieConstants.IterateForever
         )
     }
 }
@@ -100,6 +138,7 @@ private fun BodyCompose(
     onFirstNameChange: (String) -> Unit,
     onLastNameChange: (String) -> Unit,
     onRegisterClick: () -> Unit,
+    takePhoto: () -> Unit,
     actions: RegisterScreenActions
 ) {
     val email = formState.email
@@ -131,7 +170,8 @@ private fun BodyCompose(
             onConfirmPasswordChange = onConfirmPasswordChange,
             onFirstNameChange = onFirstNameChange,
             onLastNameChange = onLastNameChange,
-            registerScreenActions = actions
+            takePhoto = takePhoto,
+            formState = formState
         )
         ErrorFormCompose(errorState, snackbarHostState)
     }
@@ -154,6 +194,7 @@ private fun ErrorFormCompose(
                 RegisterErrorState.DifferentPasswordsError -> context.getString(R.string.passwords_do_not_match)
                 RegisterErrorState.FirstNameError -> context.getString(R.string.error_empty_first_name)
                 RegisterErrorState.LastNameError -> context.getString(R.string.error_empty_last_name)
+                RegisterErrorState.UriPhotoError -> context.getString(R.string.you_add_a_photo_document)
             }
             message?.let { snackbarHostState.showSnackbar(message = it) }
         }
@@ -181,9 +222,9 @@ private fun ContentCompose(
     onConfirmPasswordChange: (String) -> Unit,
     onFirstNameChange: (String) -> Unit,
     onLastNameChange: (String) -> Unit,
-    registerScreenActions: RegisterScreenActions
+    takePhoto: () -> Unit,
+    formState: RegisterFormState
 ) {
-
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -242,7 +283,8 @@ private fun ContentCompose(
                 modifier = Modifier.padding(top = 16.dp)
             )
             AddDocumentSectionCompose(
-                registerScreenActions.onSecondaryAction
+                takePhoto,
+                formState
             )
         }
     }
@@ -250,8 +292,10 @@ private fun ContentCompose(
 
 @Composable
 private fun AddDocumentSectionCompose(
-    onTakePhotoClick: () -> Unit,
+    onTakePhoto: () -> Unit,
+    formState: RegisterFormState
 ) {
+    val context = LocalContext.current
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -268,7 +312,7 @@ private fun AddDocumentSectionCompose(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             IconButton(
-                onClick = onTakePhotoClick,
+                onClick = onTakePhoto,
                 modifier = Modifier.size(65.dp)
             ) {
                 Image(
@@ -280,15 +324,21 @@ private fun AddDocumentSectionCompose(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(
-                    text = stringResource(id = R.string.take_a_photo),
+                    text = if (formState.uriPhoto.value != null) {
+                        stringResource(id = R.string.photo_captured)
+                    } else {
+                        stringResource(id = R.string.take_a_photo)
+                    },
                     style = MaterialTheme.typography.labelLarge,
                 )
                 Text(
-                    text = stringResource(id = R.string.initial_photo_size),
+                    text = formState.uriPhoto.value?.size(context)
+                        ?: stringResource(id = R.string.initial_photo_size),
                     style = MaterialTheme.typography.labelSmall,
                 )
             }
         }
+        Spacer(modifier = Modifier.height(32.dp))
     }
 }
 
@@ -338,8 +388,7 @@ private fun RegisterScreenPreview() {
     IBankTheme {
         RegisterScreen(
             actions = RegisterScreenActions(
-                onPrimaryAction = {},
-                onSecondaryAction = {},
+                onPrimaryAction = {}
             )
         )
     }

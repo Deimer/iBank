@@ -41,8 +41,7 @@ fun AppNavigation() {
         }
         composable(route = RegisterScreen.route) {
             RegisterScreen(actions = RegisterScreenActions(
-                onPrimaryAction = { navController.popBackStack() },
-                onSecondaryAction = {}
+                onPrimaryAction = { navController.popBackStack() }
             ))
         }
     }

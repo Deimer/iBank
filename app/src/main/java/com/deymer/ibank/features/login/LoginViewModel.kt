@@ -2,7 +2,8 @@ package com.deymer.ibank.features.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.deymer.ibank.ui.utils.isValidEmail
+import com.deymer.presentation.utils.isValidEmail
+import com.deymer.presentation.utils.isValidPassword
 import com.deymer.repository.utils.OnResult
 import com.deymer.usecase.user.LoginUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -64,10 +65,11 @@ class LoginViewModel @Inject constructor(
                 formState.email.isValidEmail().not() -> {
                     _loginErrorState.emit(LoginErrorState.EmailError)
                 }
-                formState.password.isValidEmail().not() -> {
+                formState.password.isValidPassword().not() -> {
                     _loginErrorState.emit(LoginErrorState.PasswordError)
                 }
                 else -> {
+                    _loginUiState.emit(LoginUiState.Loading)
                     when (val result = loginUseCase.invoke(formState.email, formState.password)) {
                         is OnResult.Success -> {
                             _loginUiState.emit(LoginUiState.Success)

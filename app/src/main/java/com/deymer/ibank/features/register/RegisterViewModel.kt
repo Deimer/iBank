@@ -1,10 +1,13 @@
 package com.deymer.ibank.features.register
 
 import android.net.Uri
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.deymer.ibank.ui.utils.isValidEmail
-import com.deymer.ibank.ui.utils.isValidPassword
+import com.deymer.presentation.extensions.isNull
+import com.deymer.presentation.utils.isValidEmail
+import com.deymer.presentation.utils.isValidPassword
 import com.deymer.repository.utils.OnResult
 import com.deymer.usecase.account.CreateAccountUseCase
 import com.deymer.usecase.user.RegisterUserUseCase
@@ -28,6 +31,7 @@ sealed class RegisterErrorState {
     data object DifferentPasswordsError: RegisterErrorState()
     data object FirstNameError: RegisterErrorState()
     data object LastNameError: RegisterErrorState()
+    data object UriPhotoError: RegisterErrorState()
     data class Error(val message: String? = null): RegisterErrorState()
 }
 
@@ -37,12 +41,16 @@ data class RegisterFormState(
     val confirmPassword: String = "",
     val firstName: String = "",
     val lastName: String = "",
-    val isEmpty: Boolean = email.isBlank()
-            && password.isBlank()
-            && confirmPassword.isBlank()
-            && firstName.isBlank()
-            && lastName.isBlank()
-)
+    val uriPhoto: MutableState<Uri?> = mutableStateOf(null)
+) {
+    fun isEmpty(): Boolean {
+        return email.isEmpty()
+                && password.isEmpty()
+                && confirmPassword.isEmpty()
+                && firstName.isEmpty()
+                && lastName.isEmpty()
+    }
+}
 
 @HiltViewModel
 class RegisterViewModel @Inject constructor(
@@ -80,11 +88,16 @@ class RegisterViewModel @Inject constructor(
         _registerFormState.value = _registerFormState.value.copy(lastName = newLastName)
     }
 
+    fun setPhotoUri(uri: Uri?) {
+        _registerFormState.value = _registerFormState.value.copy(uriPhoto = mutableStateOf(uri))
+
+    }
+
     fun register() {
         val formState = _registerFormState.value
         viewModelScope.launch(mainDispatcher) {
             when {
-                formState.isEmpty -> {
+                formState.isEmpty() -> {
                     _registerErrorState.emit(RegisterErrorState.FormError)
                 }
                 formState.email.isValidEmail().not() ->
@@ -97,11 +110,13 @@ class RegisterViewModel @Inject constructor(
                     _registerErrorState.emit(RegisterErrorState.FirstNameError)
                 formState.lastName.isEmpty() ->
                     _registerErrorState.emit(RegisterErrorState.LastNameError)
+                formState.uriPhoto.value.isNull() ->
+                    _registerErrorState.emit(RegisterErrorState.UriPhotoError)
                 else -> {
-                    _registerUiState.emit(RegisterUiState.Loading)
-                    viewModelScope.launch {
+                    formState.uriPhoto.value?.let { uri ->
+                        _registerUiState.emit(RegisterUiState.Loading)
                         when(val result = registerUseCase.invoke(
-                            formState.email, formState.password, formState.firstName, formState.lastName, Uri.parse("")
+                            formState.email, formState.password, formState.firstName, formState.lastName, uri
                         )) {
                             is OnResult.Success -> {
                                 createAccount()
