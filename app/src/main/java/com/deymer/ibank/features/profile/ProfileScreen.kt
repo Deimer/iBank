@@ -1,7 +1,7 @@
 package com.deymer.ibank.features.profile
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
@@ -13,53 +13,103 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Snackbar
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.airbnb.lottie.compose.LottieConstants
+import com.deymer.ibank.ui.colors.black60
 import com.deymer.ibank.ui.colors.dark20
-import com.deymer.ibank.ui.colors.snow
+import com.deymer.ibank.ui.colors.dark80
+import com.deymer.ibank.ui.colors.melon
+import com.deymer.ibank.ui.colors.white80
 import com.deymer.ibank.ui.components.ButtonSize
 import com.deymer.ibank.ui.components.ButtonStyle
+import com.deymer.ibank.ui.components.Lottie
 import com.deymer.ibank.ui.components.TapButton
 import com.deymer.ibank.ui.components.TopBar
 import com.deymer.ibank.ui.models.UIUserModel
 import com.deymer.ibank.ui.theme.IBankTheme
 import com.deymer.presentation.R
+import kotlinx.coroutines.launch
 
 @Composable
-fun ProfileScreen() {
-    val user = UIUserModel(
-        shortName = "JohnD",
-        fullName = "John Doe",
-        email = "john.doe@example.com",
-        urlPhoto = "https://example.com/photos/john_doe.jpg",
-        accountNumber = "1234567890",
-        numberTransactions = 42,
-        createdAt = "2023-01-01T12:00:00Z"
-    )
-    Scaffold(
-        topBar = { TopBarCompose() },
-        bottomBar = { BottomBarCompose() }
-    ) { paddingValues ->
-        IBankTheme {
-            ContentCompose(paddingValues, user)
-        }
+fun ProfileScreen(
+    viewModel: ProfileViewModel = hiltViewModel(),
+    actions: ProfileScreenActions
+) {
+    val uiState by viewModel.profileUiState.collectAsState()
+    val errorState by viewModel.profileErrorState.collectAsState()
+    val profileState by viewModel.profileState.collectAsState()
+    when(uiState) {
+        ProfileUiState.Loading -> LoadingCompose()
+        ProfileUiState.Success -> BodyCompose(
+            profileState, actions, errorState, viewModel::logout
+        )
+        ProfileUiState.Logout -> actions.onSecondaryAction.invoke()
     }
 }
 
 @Composable
-private fun TopBarCompose() {
+private fun LoadingCompose() {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        Lottie(
+            rawRes = R.raw.loading,
+            modifier = Modifier.padding(top = 20.dp),
+            size = 100.dp,
+            iterations = LottieConstants.IterateForever
+        )
+    }
+}
+
+@Composable
+private fun BodyCompose(
+    profile: UIUserModel,
+    actions: ProfileScreenActions,
+    errorState: ProfileErrorState,
+    onClickLogout: () -> Unit
+) {
+    val snackbarHostState = remember { SnackbarHostState() }
+    Scaffold(
+        topBar = { TopBarCompose(actions) },
+        bottomBar = { BottomBarCompose(onClickLogout) },
+        snackbarHost = { SnackbarHost(snackbarHostState) { data ->
+            Snackbar(containerColor = melon, contentColor = black60, snackbarData = data)
+        } }
+    ) { paddingValues ->
+        ContentCompose(paddingValues, profile)
+        ErrorProfileCompose(
+            errorState = errorState,
+            snackbarHostState = snackbarHostState
+        )
+    }
+}
+
+@Composable
+private fun TopBarCompose(actions: ProfileScreenActions) {
     TopBar(
         modifier = Modifier,
         subtitle = stringResource(id = R.string.your_profile),
         navigationIcon = R.drawable.ic_back,
-        onNavigationClick = {  }
+        onNavigationClick = actions.onPrimaryAction
     )
 }
 
@@ -71,7 +121,6 @@ private fun ContentCompose(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = snow)
             .padding(paddingValues),
         contentAlignment = Alignment.Center
     ) {
@@ -145,17 +194,24 @@ private fun ContentCompose(
 
 @Composable
 private fun AvatarComposable(user: UIUserModel) {
+    val darkTheme = isSystemInDarkTheme()
+    val iconColor = if (darkTheme) white80 else dark80
     BoxWithConstraints {
         val width = maxWidth * 0.2f
         val height = maxHeight * 0.2f
         Image(
-            modifier = Modifier.fillMaxWidth().size(width, height),
+            modifier = Modifier
+                .fillMaxWidth()
+                .size(width, height),
             painter = painterResource(id = R.drawable.ic_profile),
             contentDescription = stringResource(id = R.string.your_profile),
+            colorFilter = ColorFilter.tint(iconColor)
         )
     }
     Text(
-        modifier = Modifier.fillMaxWidth().padding(top = 16.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 16.dp),
         textAlign = TextAlign.Center,
         text = user.fullName,
         style = MaterialTheme.typography.headlineMedium,
@@ -169,7 +225,25 @@ private fun AvatarComposable(user: UIUserModel) {
 }
 
 @Composable
-private fun BottomBarCompose() {
+private fun ErrorProfileCompose(
+    errorState: ProfileErrorState,
+    snackbarHostState: SnackbarHostState
+) {
+    val snackbarScope = rememberCoroutineScope()
+    LaunchedEffect(errorState) {
+        snackbarScope.launch {
+            val message = when(errorState) {
+                is ProfileErrorState.Error -> errorState.message
+            }
+            message?.let { snackbarHostState.showSnackbar(message = it) }
+        }
+    }
+}
+
+@Composable
+private fun BottomBarCompose(
+    onClickLogout: () -> Unit
+) {
     Column(
         modifier = Modifier
             .padding(
@@ -183,7 +257,7 @@ private fun BottomBarCompose() {
             buttonStyle = ButtonStyle.Secondary,
             size = ButtonSize.Normal,
             modifier = Modifier,
-            onClick = {}
+            onClick = onClickLogout
         )
     }
 }
@@ -192,6 +266,6 @@ private fun BottomBarCompose() {
 @Composable
 private fun ProfileScreenPreview() {
     IBankTheme {
-        ProfileScreen()
+        ProfileScreen(actions = ProfileScreenActions({}, {}))
     }
 }

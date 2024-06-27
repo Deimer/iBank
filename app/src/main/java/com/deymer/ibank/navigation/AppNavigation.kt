@@ -12,6 +12,7 @@ import com.deymer.ibank.features.home.HomeScreenActions
 import com.deymer.ibank.features.login.LoginScreen
 import com.deymer.ibank.features.login.LoginScreenActions
 import com.deymer.ibank.features.profile.ProfileScreen
+import com.deymer.ibank.features.profile.ProfileScreenActions
 import com.deymer.ibank.features.register.RegisterScreen
 import com.deymer.ibank.features.register.RegisterScreenActions
 import com.deymer.ibank.features.splash.SplashScreen
@@ -88,7 +89,16 @@ fun AppNavigation() {
                 ))
             }
             composable(route = ProfileScreen.route) {
-                ProfileScreen()
+                ProfileScreen(actions = ProfileScreenActions(
+                    onPrimaryAction = {
+                        navController.popBackStack()
+                    },
+                    onSecondaryAction = {
+                        navController.navigate(AuthGraph.route) {
+                            popUpTo(UserGraph.route) { inclusive = true }
+                        }
+                    }
+                ))
             }
         }
         composable(
