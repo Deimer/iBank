@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldColors
@@ -20,8 +21,6 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.deymer.ibank.ui.colors.black60
-import com.deymer.ibank.ui.colors.black80
 import com.deymer.ibank.ui.theme.poppinsFamily
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
@@ -30,7 +29,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import com.deymer.presentation.R
-import com.deymer.ibank.ui.colors.black40
 import com.deymer.ibank.ui.colors.burntSiennaDark
 import com.deymer.ibank.ui.colors.burntSiennaMedium
 
@@ -41,26 +39,26 @@ fun textFieldColors(): TextFieldColors {
         unfocusedContainerColor = Color.Transparent,
         disabledContainerColor = Color.Transparent,
         errorContainerColor = Color.Transparent,
-        focusedIndicatorColor = black60,
-        unfocusedIndicatorColor = black40,
+        focusedIndicatorColor = MaterialTheme.colorScheme.onTertiaryContainer,
+        unfocusedIndicatorColor = MaterialTheme.colorScheme.scrim,
         disabledIndicatorColor = Color.Transparent,
         errorIndicatorColor = burntSiennaDark,
-        focusedTextColor = black80,
-        unfocusedTextColor = black80,
-        disabledTextColor = black40,
-        errorTextColor = black80,
+        focusedTextColor = MaterialTheme.colorScheme.tertiaryContainer,
+        unfocusedTextColor = MaterialTheme.colorScheme.tertiaryContainer,
+        disabledTextColor = MaterialTheme.colorScheme.scrim,
+        errorTextColor = MaterialTheme.colorScheme.tertiaryContainer,
         focusedLeadingIconColor = Color.Transparent,
         unfocusedLeadingIconColor = Color.Transparent,
         disabledLeadingIconColor = Color.Transparent,
         errorLeadingIconColor = Color.Transparent,
         focusedTrailingIconColor = burntSiennaMedium,
         unfocusedTrailingIconColor = burntSiennaMedium,
-        disabledTrailingIconColor = black40,
+        disabledTrailingIconColor = MaterialTheme.colorScheme.scrim,
         errorTrailingIconColor = burntSiennaDark,
-        focusedLabelColor = black40,
-        unfocusedLabelColor = black40,
-        focusedPlaceholderColor = black60,
-        unfocusedPlaceholderColor = black60,
+        focusedLabelColor = MaterialTheme.colorScheme.scrim,
+        unfocusedLabelColor = MaterialTheme.colorScheme.scrim,
+        focusedPlaceholderColor = MaterialTheme.colorScheme.onTertiaryContainer,
+        unfocusedPlaceholderColor = MaterialTheme.colorScheme.onTertiaryContainer,
     )
 }
 
@@ -88,7 +86,7 @@ fun EditText(
         keyboardOptions = keyboardOptions.copy(imeAction = imeAction),
         singleLine = singleLine,
         textStyle = TextStyle(
-            color = black80,
+            color = MaterialTheme.colorScheme.tertiaryContainer,
             fontSize = 18.sp,
             fontFamily = poppinsFamily
         ),

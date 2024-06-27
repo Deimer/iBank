@@ -6,7 +6,6 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import com.deymer.ibank.ui.colors.dark60
 import com.deymer.ibank.ui.colors.darkSienna
 import com.deymer.ibank.ui.colors.seaGreen
 import com.deymer.presentation.R
@@ -67,7 +66,6 @@ val AppTypography = Typography(
         fontFamily = poppinsFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 14.sp,
-        color = dark60
     ),
 
     labelSmall = TextStyle(

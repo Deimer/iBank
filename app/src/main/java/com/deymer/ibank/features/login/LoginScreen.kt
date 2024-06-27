@@ -1,6 +1,5 @@
 package com.deymer.ibank.features.login
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -31,7 +30,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.deymer.ibank.ui.colors.black60
 import com.deymer.ibank.ui.colors.melon
-import com.deymer.ibank.ui.colors.snow
 import com.deymer.ibank.ui.components.ButtonSize
 import com.deymer.ibank.ui.components.ButtonStyle
 import com.deymer.ibank.ui.components.EmailEditText
@@ -154,7 +152,6 @@ private fun ContentCompose(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = snow)
             .padding(paddingValues),
         contentAlignment = Alignment.Center
     ) {

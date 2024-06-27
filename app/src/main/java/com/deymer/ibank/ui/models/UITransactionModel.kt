@@ -10,5 +10,5 @@ data class UITransactionModel(
     val shortDate: String,
     val fullDate: String = "",
     val description: String,
-    var onClick: (id: String) -> Unit = {}
+    var onClick: () -> Unit = {}
 )

@@ -6,7 +6,6 @@ import android.os.Environment
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -46,7 +45,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.airbnb.lottie.compose.LottieConstants
 import com.deymer.ibank.ui.colors.black60
 import com.deymer.ibank.ui.colors.melon
-import com.deymer.ibank.ui.colors.snow
 import com.deymer.ibank.ui.components.ButtonSize
 import com.deymer.ibank.ui.components.ButtonStyle
 import com.deymer.ibank.ui.components.EditText
@@ -228,7 +226,6 @@ private fun ContentCompose(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = snow)
             .padding(paddingValues),
         contentAlignment = Alignment.Center
     ) {

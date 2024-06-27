@@ -23,6 +23,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.deymer.ibank.ui.colors.dark60
+import com.deymer.ibank.ui.colors.dark80
 import com.deymer.presentation.R
 import com.deymer.ibank.ui.colors.snow
 import com.deymer.ibank.ui.theme.IBankTheme
@@ -77,11 +79,13 @@ private fun BodyContent(
             Text(
                 text = stringResource(R.string.app_name),
                 style = MaterialTheme.typography.headlineLarge,
+                color = dark80,
                 modifier = Modifier.align(Alignment.CenterHorizontally)
             )
             Text(
                 text = stringResource(R.string.title_splash),
                 style = MaterialTheme.typography.bodyLarge,
+                color = dark60,
                 modifier = Modifier
                     .padding(top = 8.dp)
                     .align(Alignment.CenterHorizontally)

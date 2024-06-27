@@ -33,7 +33,16 @@ import com.deymer.ibank.ui.theme.IBankTheme
 import com.deymer.presentation.R
 
 @Composable
-fun ProfileScreen(user: UIUserModel) {
+fun ProfileScreen() {
+    val user = UIUserModel(
+        shortName = "JohnD",
+        fullName = "John Doe",
+        email = "john.doe@example.com",
+        urlPhoto = "https://example.com/photos/john_doe.jpg",
+        accountNumber = "1234567890",
+        numberTransactions = 42,
+        createdAt = "2023-01-01T12:00:00Z"
+    )
     Scaffold(
         topBar = { TopBarCompose() },
         bottomBar = { BottomBarCompose() }
@@ -183,16 +192,6 @@ private fun BottomBarCompose() {
 @Composable
 private fun ProfileScreenPreview() {
     IBankTheme {
-        ProfileScreen(
-            UIUserModel(
-                shortName = "JohnD",
-                fullName = "John Doe",
-                email = "john.doe@example.com",
-                urlPhoto = "https://example.com/photos/john_doe.jpg",
-                accountNumber = "1234567890",
-                numberTransactions = 42,
-                createdAt = "2023-01-01T12:00:00Z"
-            )
-        )
+        ProfileScreen()
     }
 }

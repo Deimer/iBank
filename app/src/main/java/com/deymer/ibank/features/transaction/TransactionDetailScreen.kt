@@ -25,9 +25,16 @@ import com.deymer.ibank.ui.models.UITransactionModel
 import com.deymer.ibank.ui.theme.IBankTheme
 
 @Composable
-fun TransactionDetailScreen(
-    transaction: UITransactionModel,
-) {
+fun TransactionDetailScreen(transactionId: String) {
+    val transaction = UITransactionModel(
+        icon = R.drawable.ic_deposit,
+        amount = "$25.50 USD",
+        type = "Transfer",
+        isWin = false,
+        shortDate = "03 Nov, 2023",
+        fullDate = "03 Nov, 2023",
+        description = "Description",
+    )
     Scaffold(
         topBar = { TopBarCompose() },
     ) { paddingValues ->
@@ -152,16 +159,6 @@ private fun ContentCompose(
 @Composable
 private fun TransactionDetailScreenPreview() {
     IBankTheme {
-        TransactionDetailScreen(
-            UITransactionModel(
-                icon = R.drawable.ic_deposit,
-                amount = "$25.50 USD",
-                type = "Transfer",
-                isWin = false,
-                shortDate = "03 Nov, 2023",
-                fullDate = "03 Nov, 2023",
-                description = "Description",
-            )
-        )
+        TransactionDetailScreen("")
     }
 }
