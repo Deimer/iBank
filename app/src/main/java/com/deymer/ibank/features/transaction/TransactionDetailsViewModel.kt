@@ -54,7 +54,7 @@ class TransactionDetailsViewModel @Inject constructor(
                 }
                 is OnResult.Error -> {
                     _transactionErrorState.emit(TransactionDetailsErrorState.Error(
-                        result.exception.message.orEmpty()
+                        result.exception.message
                     ))
                 }
             }

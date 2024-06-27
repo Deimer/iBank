@@ -41,7 +41,6 @@ fun TransactionDetailScreen(
     viewModel: TransactionDetailsViewModel = hiltViewModel(),
     attributes: TransactionDetailsAttributes
 ) {
-
     val transactionState by viewModel.transactionState.collectAsState()
     val uiState by viewModel.transactionStateUiState.collectAsState()
     val errorState by viewModel.transactionErrorState.collectAsState()
