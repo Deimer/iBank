@@ -1,5 +1,6 @@
 package com.deymer.ibank.ui.components
 
+import android.content.res.Configuration
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -9,6 +10,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -40,8 +42,8 @@ fun TapButton(
             contentColor = dark60
         )
         ButtonStyle.Secondary -> ButtonDefaults.outlinedButtonColors(
-            contentColor = dark60,
-            containerColor = snow
+            containerColor = MaterialTheme.colorScheme.background,
+            contentColor = MaterialTheme.colorScheme.tertiary
         )
         ButtonStyle.Tertiary -> ButtonDefaults.buttonColors(
             containerColor = black60,
@@ -120,7 +122,7 @@ fun TapButton(
     }
 }
 
-@Preview(showBackground = true)
+@Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 fun TapButtonPreview() {
     Column(

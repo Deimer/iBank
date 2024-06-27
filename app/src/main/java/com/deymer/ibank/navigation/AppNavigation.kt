@@ -1,22 +1,31 @@
 package com.deymer.ibank.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavType.Companion.StringType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import com.deymer.ibank.features.home.HomeScreen
+import com.deymer.ibank.features.home.HomeScreenActions
 import com.deymer.ibank.features.login.LoginScreen
 import com.deymer.ibank.features.login.LoginScreenActions
+import com.deymer.ibank.features.profile.ProfileScreen
 import com.deymer.ibank.features.register.RegisterScreen
 import com.deymer.ibank.features.register.RegisterScreenActions
 import com.deymer.ibank.features.splash.SplashScreen
 import com.deymer.ibank.features.splash.SplashScreenActions
+import com.deymer.ibank.features.transaction.TransactionDetailScreen
 import com.deymer.ibank.navigation.AppScreens.SplashScreen
 import com.deymer.ibank.navigation.AppScreens.LoginScreen
 import com.deymer.ibank.navigation.AppScreens.RegisterScreen
 import com.deymer.ibank.navigation.AppScreens.HomeScreen
 import com.deymer.ibank.navigation.AppScreens.AuthGraph
+import com.deymer.ibank.navigation.AppScreens.UserGraph
+import com.deymer.ibank.navigation.AppScreens.ProfileScreen
+import com.deymer.ibank.navigation.AppScreens.TransactionDetailScreen
+import com.deymer.ibank.navigation.RouteArguments.TRANSACTION_ID
 
 @Composable
 fun AppNavigation() {
@@ -63,8 +72,30 @@ fun AppNavigation() {
                 ))
             }
         }
-        composable(route = HomeScreen.route) {
-            HomeScreen()
+        navigation(startDestination = HomeScreen.route, route = UserGraph.route) {
+            composable(route = HomeScreen.route) {
+                HomeScreen(actions = HomeScreenActions(
+                    onPrimaryAction = {
+                        navController.navigate(ProfileScreen.route)
+                    },
+                    onSecondaryAction = { transactionId ->
+                        navController.navigate(
+                            route = "${TransactionDetailScreen.route}/$transactionId"
+                        )
+                    }
+                ))
+            }
+            composable(route = ProfileScreen.route) {
+                ProfileScreen()
+            }
+        }
+        composable(
+            route = "${TransactionDetailScreen.route}/{$TRANSACTION_ID}",
+            arguments = listOf(navArgument(name = TRANSACTION_ID) {
+                type = StringType
+            })
+        ) {
+            TransactionDetailScreen(it.arguments?.getString(TRANSACTION_ID).orEmpty())
         }
     }
 }

@@ -14,15 +14,31 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
+import com.deymer.ibank.ui.colors.black40
+import com.deymer.ibank.ui.colors.black60
+import com.deymer.ibank.ui.colors.black80
 import com.deymer.ibank.ui.colors.dark
+import com.deymer.ibank.ui.colors.dark40
+import com.deymer.ibank.ui.colors.dark60
+import com.deymer.ibank.ui.colors.dark80
+import com.deymer.ibank.ui.colors.navy
 import com.deymer.ibank.ui.colors.snow
+import com.deymer.ibank.ui.colors.white40
+import com.deymer.ibank.ui.colors.white60
+import com.deymer.ibank.ui.colors.white80
 
 private val DarkColorScheme = darkColorScheme(
     primary = snow,
     onPrimary = dark,
-    secondary = snow,
+    secondary = navy,
     onSecondary = snow,
-    background = snow,
+    background = dark80,
+    surface = dark,
+    tertiary = white60,
+    onTertiary = white40,
+    tertiaryContainer = white80,
+    onTertiaryContainer = white60,
+    scrim = white40,
 )
 
 private val LightColorScheme = lightColorScheme(
@@ -32,6 +48,11 @@ private val LightColorScheme = lightColorScheme(
     onSecondary = snow,
     background = snow,
     surface = snow,
+    tertiary = dark60,
+    onTertiary = dark40,
+    tertiaryContainer = black80,
+    onTertiaryContainer = black60,
+    scrim = black40,
 )
 
 @Composable
@@ -45,7 +66,6 @@ fun IBankTheme(
             val context = LocalContext.current
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
         }
-
         darkTheme -> DarkColorScheme
         else -> LightColorScheme
     }
@@ -53,8 +73,12 @@ fun IBankTheme(
     if (!view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window
-            window.statusBarColor = colorScheme.primary.toArgb()
-            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme
+            window.statusBarColor = if (darkTheme) {
+                dark.toArgb()
+            } else {
+                colorScheme.primary.toArgb()
+            }
+            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !darkTheme
         }
     }
 
