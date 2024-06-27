@@ -16,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.deymer.ibank.ui.colors.dark80
@@ -30,7 +31,8 @@ fun ItemBox(
     modifier: Modifier = Modifier
 ) {
     val darkTheme = isSystemInDarkTheme()
-    Box(modifier = modifier.fillMaxWidth()
+    Box(modifier = modifier
+        .fillMaxWidth()
         .padding(
             top = 2.dp,
             bottom = 4.dp
@@ -50,7 +52,9 @@ fun ItemBox(
                 colorFilter = ColorFilter.tint(iconColor)
             )
             Column(
-                modifier = Modifier.weight(1f).padding(start = 12.dp),
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(start = 12.dp),
             ) {
                 Tag(
                     text = transaction.type,
@@ -68,7 +72,7 @@ fun ItemBox(
         }
         Column(modifier = Modifier.align(Alignment.TopEnd)) {
             Text(
-                text = transaction.amount,
+                text = stringResource(id = R.string.balance_item, transaction.amount),
                 style = MaterialTheme.typography.bodySmall,
                 modifier = Modifier.align(Alignment.End)
             )

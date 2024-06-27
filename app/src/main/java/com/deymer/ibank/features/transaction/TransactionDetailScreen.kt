@@ -1,6 +1,5 @@
 package com.deymer.ibank.features.transaction
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -9,48 +8,95 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Snackbar
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.airbnb.lottie.compose.LottieConstants
+import com.deymer.ibank.ui.colors.black60
 import com.deymer.ibank.ui.colors.dark20
-import com.deymer.ibank.ui.colors.snow
+import com.deymer.ibank.ui.colors.melon
+import com.deymer.ibank.ui.components.Lottie
 import com.deymer.ibank.ui.components.Tag
 import com.deymer.presentation.R
 import com.deymer.ibank.ui.components.TopBar
 import com.deymer.ibank.ui.models.UITransactionModel
 import com.deymer.ibank.ui.theme.IBankTheme
+import kotlinx.coroutines.launch
 
 @Composable
-fun TransactionDetailScreen(transactionId: String) {
-    val transaction = UITransactionModel(
-        icon = R.drawable.ic_deposit,
-        amount = "$25.50 USD",
-        type = "Transfer",
-        isWin = false,
-        shortDate = "03 Nov, 2023",
-        fullDate = "03 Nov, 2023",
-        description = "Description",
-    )
-    Scaffold(
-        topBar = { TopBarCompose() },
-    ) { paddingValues ->
-        IBankTheme {
-            ContentCompose(paddingValues, transaction)
-        }
+fun TransactionDetailScreen(
+    viewModel: TransactionDetailsViewModel = hiltViewModel(),
+    attributes: TransactionDetailsAttributes
+) {
+
+    val transactionState by viewModel.transactionState.collectAsState()
+    val uiState by viewModel.transactionStateUiState.collectAsState()
+    val errorState by viewModel.transactionErrorState.collectAsState()
+    viewModel.getTransaction(attributes.transactionId)
+    when(uiState) {
+        TransactionDetailsUiState.Success -> BodyCompose(
+            transactionState, attributes.actions, errorState
+        )
+        TransactionDetailsUiState.Loading -> LoadingCompose()
     }
 }
 
 @Composable
-private fun TopBarCompose() {
+private fun LoadingCompose() {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        Lottie(
+            rawRes = R.raw.loading,
+            modifier = Modifier.padding(top = 20.dp),
+            size = 100.dp,
+            iterations = LottieConstants.IterateForever
+        )
+    }
+}
+
+@Composable
+private fun BodyCompose(
+    transaction: UITransactionModel,
+    actions: TransactionDetailsActions,
+    errorState: TransactionDetailsErrorState
+) {
+    val snackbarHostState = remember { SnackbarHostState() }
+    Scaffold(
+        topBar = { TopBarCompose(actions) },
+        snackbarHost = { SnackbarHost(snackbarHostState) { data ->
+            Snackbar(containerColor = melon, contentColor = black60, snackbarData = data)
+        } }
+    ) { paddingValues ->
+        ContentCompose(paddingValues, transaction)
+        ErrorTransactionDetailsCompose(
+            errorState = errorState,
+            snackbarHostState = snackbarHostState
+        )
+    }
+}
+
+@Composable
+private fun TopBarCompose(actions: TransactionDetailsActions) {
     TopBar(
         modifier = Modifier,
         subtitle = stringResource(id = R.string.transaction_details),
         navigationIcon = R.drawable.ic_back,
-        onNavigationClick = {  }
+        onNavigationClick = actions.onPrimaryAction
     )
 }
 
@@ -62,7 +108,6 @@ private fun ContentCompose(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = snow)
             .padding(paddingValues),
         contentAlignment = Alignment.Center
     ) {
@@ -87,7 +132,7 @@ private fun ContentCompose(
                     top = 12.dp,
                     start = 8.dp,
                 ),
-                text = transaction.amount,
+                text = stringResource(id = R.string.balance_item_usd, transaction.amount),
                 style = MaterialTheme.typography.headlineSmall,
             )
             HorizontalDivider(
@@ -155,10 +200,31 @@ private fun ContentCompose(
     }
 }
 
+@Composable
+private fun ErrorTransactionDetailsCompose(
+    errorState: TransactionDetailsErrorState,
+    snackbarHostState: SnackbarHostState
+) {
+    val snackbarScope = rememberCoroutineScope()
+    LaunchedEffect(errorState) {
+        snackbarScope.launch {
+            val message = when(errorState) {
+                is TransactionDetailsErrorState.Error -> errorState.message
+            }
+            message?.let { snackbarHostState.showSnackbar(message = it) }
+        }
+    }
+}
+
 @Preview(showBackground = true)
 @Composable
 private fun TransactionDetailScreenPreview() {
     IBankTheme {
-        TransactionDetailScreen("")
+        TransactionDetailScreen(
+            attributes = TransactionDetailsAttributes(
+                transactionId = "",
+                actions = TransactionDetailsActions {}
+            )
+        )
     }
 }

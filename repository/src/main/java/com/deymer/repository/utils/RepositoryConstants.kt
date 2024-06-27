@@ -3,8 +3,8 @@ package com.deymer.repository.utils
 object RepositoryConstants {
 
     object DateFormats {
-        const val DATE_FORMAT_FULL = "dd 'de' MMMM 'de' yyyy, hh:mm a"
-        const val DATE_FORMAT_SHORT = "EEEE dd 'de' MMMM"
+        const val DATE_FORMAT_FULL = "dd '-' MMMM '-' yyyy, hh:mm a"
+        const val DATE_FORMAT_SHORT = "EEEE dd '-' MMMM"
         const val DATE_FORMAT_MINI = "EEEE"
     }
 
