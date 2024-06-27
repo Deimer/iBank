@@ -17,6 +17,8 @@ import com.deymer.ibank.features.register.RegisterScreenActions
 import com.deymer.ibank.features.splash.SplashScreen
 import com.deymer.ibank.features.splash.SplashScreenActions
 import com.deymer.ibank.features.transaction.TransactionDetailScreen
+import com.deymer.ibank.features.transaction.TransactionDetailsActions
+import com.deymer.ibank.features.transaction.TransactionDetailsAttributes
 import com.deymer.ibank.navigation.AppScreens.SplashScreen
 import com.deymer.ibank.navigation.AppScreens.LoginScreen
 import com.deymer.ibank.navigation.AppScreens.RegisterScreen
@@ -95,7 +97,16 @@ fun AppNavigation() {
                 type = StringType
             })
         ) {
-            TransactionDetailScreen(it.arguments?.getString(TRANSACTION_ID).orEmpty())
+            TransactionDetailScreen(
+                attributes = TransactionDetailsAttributes(
+                    transactionId = it.arguments?.getString(TRANSACTION_ID).orEmpty(),
+                    actions = TransactionDetailsActions(
+                        onPrimaryAction = {
+                            navController.popBackStack()
+                        }
+                    )
+                )
+            )
         }
     }
 }

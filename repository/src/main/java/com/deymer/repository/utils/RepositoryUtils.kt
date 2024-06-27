@@ -17,7 +17,7 @@ import kotlin.random.Random.Default.nextInt
 fun Long.toHumanDate(): String {
     val calendar = Calendar.getInstance()
     calendar.timeInMillis = this
-    val dateFormat = SimpleDateFormat(DATE_FORMAT_FULL, Locale(TAG_LANGUAGE, TAG_COUNTRY))
+    val dateFormat = SimpleDateFormat(DATE_FORMAT_FULL, Locale.getDefault())
     return dateFormat.format(calendar.time).replaceFirstChar { it.uppercaseChar() }
 }
 
