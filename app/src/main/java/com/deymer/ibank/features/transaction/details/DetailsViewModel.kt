@@ -1,4 +1,4 @@
-package com.deymer.ibank.features.transaction
+package com.deymer.ibank.features.transaction.details
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -14,26 +14,26 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-sealed class TransactionDetailsUiState {
-    data object Loading: TransactionDetailsUiState()
-    data object Success: TransactionDetailsUiState()
+sealed class DetailsUiState {
+    data object Loading: DetailsUiState()
+    data object Success: DetailsUiState()
 }
 
-sealed class TransactionDetailsErrorState {
-    data class Error(val message: String? = null): TransactionDetailsErrorState()
+sealed class DetailsErrorState {
+    data class Error(val message: String? = null): DetailsErrorState()
 }
 
 @HiltViewModel
-class TransactionDetailsViewModel @Inject constructor(
+class DetailsViewModel @Inject constructor(
     private val mainDispatcher: CoroutineDispatcher,
     private val fetchTransactionUseCase: FetchTransactionUseCase
 ): ViewModel() {
 
-    private val _transactionUiState = MutableStateFlow<TransactionDetailsUiState>(TransactionDetailsUiState.Loading)
-    val transactionStateUiState = _transactionUiState.asStateFlow()
+    private val _detailsUiState = MutableStateFlow<DetailsUiState>(DetailsUiState.Loading)
+    val detailsUiState = _detailsUiState.asStateFlow()
 
-    private val _transactionErrorState = MutableStateFlow<TransactionDetailsErrorState>(TransactionDetailsErrorState.Error())
-    val transactionErrorState = _transactionErrorState.asStateFlow()
+    private val _detailsErrorState = MutableStateFlow<DetailsErrorState>(DetailsErrorState.Error())
+    val detailsErrorState = _detailsErrorState.asStateFlow()
 
     private val _transactionState = MutableStateFlow(UITransactionModel())
     val transactionState: StateFlow<UITransactionModel> = _transactionState.asStateFlow()
@@ -42,7 +42,7 @@ class TransactionDetailsViewModel @Inject constructor(
         viewModelScope.launch(mainDispatcher) {
             when(val result = fetchTransactionUseCase.invoke(transactionId)) {
                 is OnResult.Success -> {
-                    _transactionUiState.emit(TransactionDetailsUiState.Success)
+                    _detailsUiState.emit(DetailsUiState.Success)
                     _transactionState.value = _transactionState.value.copy(
                         amount = result.data.amount.toString(),
                         type = result.data.type.name.lowercase().replaceFirstChar { it.uppercaseChar() },
@@ -53,9 +53,11 @@ class TransactionDetailsViewModel @Inject constructor(
                     )
                 }
                 is OnResult.Error -> {
-                    _transactionErrorState.emit(TransactionDetailsErrorState.Error(
-                        result.exception.message
-                    ))
+                    _detailsErrorState.emit(
+                        DetailsErrorState.Error(
+                            result.exception.message
+                        )
+                    )
                 }
             }
         }

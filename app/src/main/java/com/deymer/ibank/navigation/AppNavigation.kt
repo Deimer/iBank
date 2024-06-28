@@ -19,9 +19,9 @@ import com.deymer.ibank.features.register.RegisterScreen
 import com.deymer.ibank.features.register.RegisterScreenActions
 import com.deymer.ibank.features.splash.SplashScreen
 import com.deymer.ibank.features.splash.SplashScreenActions
-import com.deymer.ibank.features.transaction.TransactionDetailScreen
-import com.deymer.ibank.features.transaction.TransactionDetailsActions
-import com.deymer.ibank.features.transaction.TransactionDetailsAttributes
+import com.deymer.ibank.features.transaction.details.DetailsActions
+import com.deymer.ibank.features.transaction.details.DetailsAttributes
+import com.deymer.ibank.features.transaction.details.DetailsScreen
 import com.deymer.ibank.navigation.AppScreens.SplashScreen
 import com.deymer.ibank.navigation.AppScreens.LoginScreen
 import com.deymer.ibank.navigation.AppScreens.RegisterScreen
@@ -29,7 +29,7 @@ import com.deymer.ibank.navigation.AppScreens.HomeScreen
 import com.deymer.ibank.navigation.AppScreens.AuthGraph
 import com.deymer.ibank.navigation.AppScreens.UserGraph
 import com.deymer.ibank.navigation.AppScreens.ProfileScreen
-import com.deymer.ibank.navigation.AppScreens.TransactionDetailScreen
+import com.deymer.ibank.navigation.AppScreens.DetailsScreen
 import com.deymer.ibank.navigation.AppScreens.RechargeScreen
 import com.deymer.ibank.navigation.RouteArguments.TRANSACTION_ID
 
@@ -86,7 +86,7 @@ fun AppNavigation() {
                     },
                     onSecondaryAction = { transactionId ->
                         navController.navigate(
-                            route = "${TransactionDetailScreen.route}/$transactionId"
+                            route = "${DetailsScreen.route}/$transactionId"
                         )
                     },
                     onTertiaryAction = {
@@ -111,15 +111,15 @@ fun AppNavigation() {
             }
         }
         composable(
-            route = "${TransactionDetailScreen.route}/{$TRANSACTION_ID}",
+            route = "${DetailsScreen.route}/{$TRANSACTION_ID}",
             arguments = listOf(navArgument(name = TRANSACTION_ID) {
                 type = StringType
             })
         ) {
-            TransactionDetailScreen(
-                attributes = TransactionDetailsAttributes(
+            DetailsScreen(
+                attributes = DetailsAttributes(
                     transactionId = it.arguments?.getString(TRANSACTION_ID).orEmpty(),
-                    actions = TransactionDetailsActions(
+                    actions = DetailsActions(
                         onPrimaryAction = {
                             navController.popBackStack()
                         }
