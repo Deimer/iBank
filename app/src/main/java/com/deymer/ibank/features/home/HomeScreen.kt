@@ -1,6 +1,6 @@
 package com.deymer.ibank.features.home
 
-import androidx.compose.foundation.Image
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,11 +11,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -33,15 +32,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.airbnb.lottie.compose.LottieConstants
 import com.deymer.ibank.ui.colors.black60
-import com.deymer.ibank.ui.colors.darkMidnightBlueLight
+import com.deymer.ibank.ui.colors.burntSiennaLite
+import com.deymer.ibank.ui.colors.midnightBlueDark
 import com.deymer.ibank.ui.colors.melon
+import com.deymer.ibank.ui.colors.navy
 import com.deymer.ibank.ui.colors.seashell
 import com.deymer.ibank.ui.colors.white
 import com.deymer.ibank.ui.components.ItemBox
@@ -62,7 +62,7 @@ fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
     actions: HomeScreenActions
 ) {
-    val options = getOptions()
+    val options = getOptions(actions)
     val userName by viewModel.userName.collectAsState()
     val accountState by viewModel.accountUiState.collectAsState()
     val uiState by viewModel.homeUiState.collectAsState()
@@ -80,21 +80,24 @@ fun HomeScreen(
 }
 
 @Composable
-private fun getOptions(): List<UIOptionModel> {
+private fun getOptions(
+    actions: HomeScreenActions
+): List<UIOptionModel> {
+    val darkTheme = isSystemInDarkTheme()
     return listOf(
         UIOptionModel(
             icon = R.drawable.ic_egg,
             title = stringResource(id = R.string.make_recharge),
             buttonText = stringResource(R.string.recharge),
-            backgroundColor = seashell
-        ) {},
+            backgroundColor = if(darkTheme) burntSiennaLite else seashell
+        ) { actions.onTertiaryAction.invoke() },
         UIOptionModel(
             icon = R.drawable.ic_friends,
             title = stringResource(R.string.transfer_to_friend),
             textColorTitle = white,
             buttonText = stringResource(R.string.transfer),
-            backgroundColor = darkMidnightBlueLight
-        ) {}
+            backgroundColor = if(darkTheme) navy else midnightBlueDark
+        ) { actions.onQuaternaryAction.invoke() }
     )
 }
 
@@ -171,9 +174,7 @@ private fun ContentCompose(
                     start = 18.dp,
                 )
         ) {
-            item {
-                Spacer(modifier = Modifier.height(10.dp))
-            }
+            item { Spacer(modifier = Modifier.height(10.dp)) }
             item {
                 BalanceCardCompose(
                     modifier = Modifier.padding(end = 18.dp),
@@ -218,9 +219,7 @@ private fun ContentCompose(
                     )
                 )
             }
-            item {
-                Spacer(modifier = Modifier.height(20.dp))
-            }
+            item { Spacer(modifier = Modifier.height(20.dp)) }
         }
     }
 }
@@ -258,10 +257,10 @@ private fun BalanceCardCompose(
                     style = MaterialTheme.typography.headlineLarge,
                 )
             }
-            Image(
-                painter = painterResource(id = R.drawable.ic_amount),
-                contentDescription = stringResource(id = R.string.available_balance),
-                modifier = Modifier.size(48.dp),
+            Lottie(
+                rawRes = R.raw.money,
+                size = 62.dp,
+                iterations = LottieConstants.IterateForever
             )
         }
     }
@@ -276,9 +275,10 @@ private fun OptionsCompose(
         modifier = modifier,
         horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        itemsIndexed(options) { _, option ->
+        items(options) { option ->
             ItemCard(option = option)
         }
+        item { Spacer(modifier = Modifier.width(6.dp)) }
     }
 }
 
@@ -314,7 +314,12 @@ private fun ErrorHomeCompose(
 private fun HomeScreenPreview() {
     IBankTheme {
         HomeScreen(
-            actions = HomeScreenActions({}, {_ ->})
+            actions = HomeScreenActions(
+                onPrimaryAction = {},
+                onSecondaryAction = {_ ->},
+                onTertiaryAction = {},
+                onQuaternaryAction = {}
+            )
         )
     }
 }

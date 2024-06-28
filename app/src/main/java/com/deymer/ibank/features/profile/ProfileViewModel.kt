@@ -60,7 +60,9 @@ class ProfileViewModel @Inject constructor(
                     fetchAccount()
                 }
                 is OnResult.Error -> {
-
+                    _profileErrorState.emit(ProfileErrorState.Error(
+                        result.exception.message
+                    ))
                 }
             }
         }

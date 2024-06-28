@@ -2,6 +2,7 @@ package com.deymer.ibank.ui.components
 
 import android.content.res.Configuration
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,10 +20,14 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.deymer.ibank.ui.colors.black40
 import com.deymer.ibank.ui.colors.black60
+import com.deymer.ibank.ui.colors.dark40
 import com.deymer.ibank.ui.colors.dark60
+import com.deymer.ibank.ui.colors.dark80
 import com.deymer.ibank.ui.colors.melon
 import com.deymer.ibank.ui.colors.snow
+import com.deymer.ibank.ui.colors.white40
 import com.deymer.ibank.ui.theme.poppinsFamily
 
 enum class ButtonStyle { Primary, Secondary, Tertiary }
@@ -46,7 +51,7 @@ fun TapButton(
             contentColor = MaterialTheme.colorScheme.tertiary
         )
         ButtonStyle.Tertiary -> ButtonDefaults.buttonColors(
-            containerColor = black60,
+            containerColor = dark60,
             contentColor = snow
         )
     }

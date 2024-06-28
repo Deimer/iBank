@@ -23,14 +23,21 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.deymer.ibank.ui.theme.poppinsFamily
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.TextFieldValue
 import com.deymer.presentation.R
 import com.deymer.ibank.ui.colors.burntSiennaDark
 import com.deymer.ibank.ui.colors.burntSiennaMedium
+import com.deymer.ibank.ui.colors.dark80
+import com.deymer.presentation.utils.formatMoney
+import com.deymer.presentation.utils.parseMoney
+import com.deymer.presentation.utils.validateAmount
 
 @Composable
 fun textFieldColors(): TextFieldColors {
@@ -74,6 +81,7 @@ fun EditText(
     singleLine: Boolean = true,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     trailingIcon: @Composable (() -> Unit)? = null,
+    enabled: Boolean = true
 ) {
     TextField(
         modifier = modifier.fillMaxWidth(),
@@ -91,6 +99,7 @@ fun EditText(
             fontFamily = poppinsFamily
         ),
         colors = textFieldColors(),
+        enabled = enabled
     )
 }
 
@@ -150,7 +159,7 @@ fun PasswordEditText(
     imeAction: ImeAction = ImeAction.Done,
 ) {
     var passwordVisible by remember { mutableStateOf(false) }
-    val visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation()
+    val visualTransformation = if(passwordVisible) VisualTransformation.None else PasswordVisualTransformation()
     EditText(
         modifier = modifier,
         value = value,
@@ -159,7 +168,7 @@ fun PasswordEditText(
         placeholder = placeholder,
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
         trailingIcon = {
-            val image = if (passwordVisible) painterResource(id = R.drawable.ic_eye) else painterResource(id = R.drawable.ic_eye_slash)
+            val image = if(passwordVisible) painterResource(id = R.drawable.ic_eye) else painterResource(id = R.drawable.ic_eye_slash)
             IconButton(onClick = { passwordVisible = !passwordVisible }) {
                 Icon(painter = image, "")
             }
@@ -178,6 +187,67 @@ fun PasswordEditTextPreview() {
             onValueChange = {},
             label = "Input sample",
             placeholder = "password",
+        )
+    }
+}
+
+@Composable
+fun AmountEditText(
+    modifier: Modifier = Modifier,
+    value: Float,
+    onValueChange: (Float) -> Unit,
+    label: String = "",
+    placeholder: String = "",
+    prefix: String = "$",
+    maxAmount: Float = 99999f
+) {
+    var textFieldValue by remember(value) {
+        mutableStateOf(
+            TextFieldValue(
+                text = if (value != 0f) formatMoney(value) else "",
+                selection = TextRange(if (value != 0f) formatMoney(value).length else 0)
+            )
+        )
+    }
+    TextField(
+        modifier = modifier.fillMaxWidth(),
+        value = textFieldValue,
+        onValueChange = { newValue ->
+            if(newValue.text.validateAmount(maxAmount)) {
+                val newText = newValue.text
+                    .replace(Regex("[^\\d.,]"), "")
+                    .replace(" ", "")
+                textFieldValue = TextFieldValue(
+                    text = formatMoney(parseMoney(newText)),
+                    selection = TextRange(formatMoney(parseMoney(newText)).length)
+                )
+                onValueChange(parseMoney(newText))
+            }
+        },
+        label = { Text(text = label) },
+        placeholder = { Text(text = placeholder) },
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+        singleLine = true,
+        textStyle = TextStyle(
+            color = dark80,
+            fontSize = 18.sp,
+            fontFamily = poppinsFamily
+        ),
+        colors = textFieldColors(),
+        prefix = { Text(text = prefix) },
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+fun AmountEditTextPreview() {
+    var moneyValue by remember { mutableFloatStateOf(0f) }
+    Column(modifier = Modifier.padding(all = 8.dp)) {
+        AmountEditText(
+            value = moneyValue,
+            onValueChange = { moneyValue = it },
+            label = "Amount",
+            placeholder = "Enter the amount"
         )
     }
 }

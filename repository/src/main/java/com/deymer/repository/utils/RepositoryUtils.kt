@@ -3,9 +3,7 @@ package com.deymer.repository.utils
 import com.deymer.repository.utils.RepositoryConstants.DateFormats.DATE_FORMAT_FULL
 import com.deymer.repository.utils.RepositoryConstants.DateFormats.DATE_FORMAT_MINI
 import com.deymer.repository.utils.RepositoryConstants.DateFormats.DATE_FORMAT_SHORT
-import com.deymer.repository.utils.RepositoryConstants.Tags.TAG_COUNTRY
 import com.deymer.repository.utils.RepositoryConstants.Tags.TAG_EMPTY
-import com.deymer.repository.utils.RepositoryConstants.Tags.TAG_LANGUAGE
 import com.deymer.repository.utils.RepositoryConstants.Tags.TAG_MAX_BALANCE
 import com.deymer.repository.utils.RepositoryConstants.Tags.TAG_MIN_BALANCE
 import com.deymer.repository.utils.RepositoryConstants.Tags.TAG_TODAY
@@ -35,10 +33,10 @@ fun Long.toShortHumanDate(): String {
         add(Calendar.DATE, -7)
     }
     if (calendarInput.after(oneWeekAgo)) {
-        val dayOfWeekFormat = SimpleDateFormat(DATE_FORMAT_MINI, Locale(TAG_LANGUAGE, TAG_COUNTRY))
+        val dayOfWeekFormat = SimpleDateFormat(DATE_FORMAT_MINI, Locale.getDefault())
         return dayOfWeekFormat.format(calendarInput.time).replaceFirstChar { it.uppercaseChar() }
     }
-    val fullDateFormat = SimpleDateFormat(DATE_FORMAT_SHORT, Locale(TAG_LANGUAGE, TAG_COUNTRY))
+    val fullDateFormat = SimpleDateFormat(DATE_FORMAT_SHORT, Locale.getDefault())
     return fullDateFormat.format(calendarInput.time).replaceFirstChar { it.uppercaseChar() }
 }
 

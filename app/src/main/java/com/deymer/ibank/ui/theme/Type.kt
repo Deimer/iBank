@@ -6,7 +6,8 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import com.deymer.ibank.ui.colors.darkSienna
+import com.deymer.ibank.ui.colors.pineappleDark
+import com.deymer.ibank.ui.colors.siennaDark
 import com.deymer.ibank.ui.colors.seaGreen
 import com.deymer.presentation.R
 
@@ -84,7 +85,7 @@ val tagTransactionWin = TextStyle(
 
 val tagTransactionLost = TextStyle(
     fontFamily = poppinsFamily,
-    color = darkSienna,
+    color = pineappleDark,
     fontSize = 16.sp,
     fontWeight = FontWeight.Medium
 )

@@ -95,7 +95,7 @@ fun ItemBoxPreview() {
             amount = "25.50 USD",
             type = "Deposit",
             isWin = true,
-            shortDate = "03 Nov, 2023",
+            shortDate = "Today",
             description = "Description",
         ))
     }

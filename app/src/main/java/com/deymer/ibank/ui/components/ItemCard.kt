@@ -1,5 +1,6 @@
 package com.deymer.ibank.ui.components
 
+import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -21,7 +22,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.deymer.ibank.ui.colors.darkMidnightBlueLight
+import com.deymer.ibank.ui.colors.midnightBlueDark
+import com.deymer.ibank.ui.colors.navy
 import com.deymer.ibank.ui.colors.seashell
 import com.deymer.ibank.ui.colors.white
 import com.deymer.presentation.R
@@ -54,7 +56,7 @@ fun ItemCard(option: UIOptionModel) {
                     text = option.buttonText,
                     buttonStyle = ButtonStyle.Tertiary,
                     size = ButtonSize.Mini,
-                    onClick = { option.onClick }
+                    onClick = option.onClick
                 )
             }
             Image(
@@ -68,7 +70,7 @@ fun ItemCard(option: UIOptionModel) {
     }
 }
 
-@Preview(showBackground = false)
+@Preview(showBackground = false, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 fun ItemCardPreview() {
     Column {
@@ -85,7 +87,7 @@ fun ItemCardPreview() {
             title = stringResource(id = R.string.transfer_to_friend),
             textColorTitle = white,
             buttonText = stringResource(id = R.string.transfer),
-            backgroundColor = darkMidnightBlueLight,
+            backgroundColor = midnightBlueDark,
             onClick = {},
         ))
     }
