@@ -2,7 +2,6 @@ package com.deymer.ibank.features.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.deymer.ibank.ui.models.UIOptionModel
 import com.deymer.repository.models.TransactionModel
 import com.deymer.repository.utils.OnResult
 import com.deymer.usecase.account.FetchAccountUseCase

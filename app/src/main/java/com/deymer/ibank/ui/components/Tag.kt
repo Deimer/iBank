@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.deymer.ibank.ui.colors.bloodRedLightest
 import com.deymer.ibank.ui.colors.burntSiennaLight
-import com.deymer.ibank.ui.colors.dark
+import com.deymer.ibank.ui.colors.siennaDark
 import com.deymer.ibank.ui.colors.honeydew
 import com.deymer.ibank.ui.theme.poppinsFamily
 import com.deymer.ibank.ui.theme.tagTransactionLost
@@ -51,7 +51,7 @@ fun Tag(
             fontSize = 14.sp,
             fontFamily = poppinsFamily,
             fontWeight = FontWeight.SemiBold,
-            color = dark,
+            color = siennaDark,
             letterSpacing = 0.02.sp
         )
     }
@@ -79,6 +79,7 @@ fun Tag(
         Text(
             text = text,
             style = textStyle.copy(textAlign = TextAlign.Center)
+
         )
     }
 }

@@ -13,6 +13,8 @@ import com.deymer.ibank.features.login.LoginScreen
 import com.deymer.ibank.features.login.LoginScreenActions
 import com.deymer.ibank.features.profile.ProfileScreen
 import com.deymer.ibank.features.profile.ProfileScreenActions
+import com.deymer.ibank.features.recharge.RechargeScreen
+import com.deymer.ibank.features.recharge.RechargeScreenActions
 import com.deymer.ibank.features.register.RegisterScreen
 import com.deymer.ibank.features.register.RegisterScreenActions
 import com.deymer.ibank.features.splash.SplashScreen
@@ -28,6 +30,7 @@ import com.deymer.ibank.navigation.AppScreens.AuthGraph
 import com.deymer.ibank.navigation.AppScreens.UserGraph
 import com.deymer.ibank.navigation.AppScreens.ProfileScreen
 import com.deymer.ibank.navigation.AppScreens.TransactionDetailScreen
+import com.deymer.ibank.navigation.AppScreens.RechargeScreen
 import com.deymer.ibank.navigation.RouteArguments.TRANSACTION_ID
 
 @Composable
@@ -85,6 +88,12 @@ fun AppNavigation() {
                         navController.navigate(
                             route = "${TransactionDetailScreen.route}/$transactionId"
                         )
+                    },
+                    onTertiaryAction = {
+                        navController.navigate(RechargeScreen.route)
+                    },
+                    onQuaternaryAction = {
+                        navController.navigate(RechargeScreen.route)
                     }
                 ))
             }
@@ -117,6 +126,13 @@ fun AppNavigation() {
                     )
                 )
             )
+        }
+        composable(route = RechargeScreen.route) {
+            RechargeScreen(actions = RechargeScreenActions(
+                onPrimaryAction = {
+                    navController.popBackStack()
+                }
+            ))
         }
     }
 }

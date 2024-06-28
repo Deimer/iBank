@@ -13,8 +13,8 @@ class CreateTransactionUseCase @Inject constructor(
     suspend fun invoke(
         accountId: String,
         amount: Float,
-        type: String,
-        description: String
+        type: String = TransactionType.DEPOSIT.name,
+        description: String = ""
     ): OnResult<Boolean> {
         val transaction = SimpleTransactionModel(
             amount = amount,

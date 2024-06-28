@@ -14,7 +14,9 @@ class UpdateBalanceUseCase @Inject constructor(
     }
 
     suspend fun invoke(
-        accountId: String, rechargeValue: Float, currentBalance: Float
+        accountId: String,
+        rechargeValue: Float,
+        currentBalance: Float
     ): OnResult<Boolean> {
         val newValue = currentBalance + rechargeValue
         val decimalFormat = DecimalFormat(BALANCE_FORMAT)
