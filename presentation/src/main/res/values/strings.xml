@@ -66,6 +66,7 @@
     <string name="perform_recharge">Perform recharge</string>
     <string name="success_recharge">Successful recharge! Your new balance is now available.</string>
     <string name="description_recharge">Deposit made from %1$s.</string>
+    <string name="success_register">Welcome!</string>
 
     <array name="bank_list">
         <item>Select bank</item>
