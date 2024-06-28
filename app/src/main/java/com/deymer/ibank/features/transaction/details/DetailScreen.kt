@@ -1,4 +1,4 @@
-package com.deymer.ibank.features.transaction
+package com.deymer.ibank.features.transaction.details
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -37,19 +37,19 @@ import com.deymer.ibank.ui.theme.IBankTheme
 import kotlinx.coroutines.launch
 
 @Composable
-fun TransactionDetailScreen(
-    viewModel: TransactionDetailsViewModel = hiltViewModel(),
-    attributes: TransactionDetailsAttributes
+fun DetailsScreen(
+    viewModel: DetailsViewModel = hiltViewModel(),
+    attributes: DetailsAttributes
 ) {
     val transactionState by viewModel.transactionState.collectAsState()
-    val uiState by viewModel.transactionStateUiState.collectAsState()
-    val errorState by viewModel.transactionErrorState.collectAsState()
+    val uiState by viewModel.detailsUiState.collectAsState()
+    val errorState by viewModel.detailsErrorState.collectAsState()
     viewModel.getTransaction(attributes.transactionId)
     when(uiState) {
-        TransactionDetailsUiState.Success -> BodyCompose(
+        DetailsUiState.Success -> BodyCompose(
             transactionState, attributes.actions, errorState
         )
-        TransactionDetailsUiState.Loading -> LoadingCompose()
+        DetailsUiState.Loading -> LoadingCompose()
     }
 }
 
@@ -71,8 +71,8 @@ private fun LoadingCompose() {
 @Composable
 private fun BodyCompose(
     transaction: UITransactionModel,
-    actions: TransactionDetailsActions,
-    errorState: TransactionDetailsErrorState
+    actions: DetailsActions,
+    errorState: DetailsErrorState
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
     Scaffold(
@@ -82,7 +82,7 @@ private fun BodyCompose(
         } }
     ) { paddingValues ->
         ContentCompose(paddingValues, transaction)
-        ErrorTransactionDetailsCompose(
+        ErrorDetailsCompose(
             errorState = errorState,
             snackbarHostState = snackbarHostState
         )
@@ -90,7 +90,7 @@ private fun BodyCompose(
 }
 
 @Composable
-private fun TopBarCompose(actions: TransactionDetailsActions) {
+private fun TopBarCompose(actions: DetailsActions) {
     TopBar(
         modifier = Modifier,
         subtitle = stringResource(id = R.string.transaction_details),
@@ -200,15 +200,15 @@ private fun ContentCompose(
 }
 
 @Composable
-private fun ErrorTransactionDetailsCompose(
-    errorState: TransactionDetailsErrorState,
+private fun ErrorDetailsCompose(
+    errorState: DetailsErrorState,
     snackbarHostState: SnackbarHostState
 ) {
     val snackbarScope = rememberCoroutineScope()
     LaunchedEffect(errorState) {
         snackbarScope.launch {
             val message = when(errorState) {
-                is TransactionDetailsErrorState.Error -> errorState.message
+                is DetailsErrorState.Error -> errorState.message
             }
             message?.let { snackbarHostState.showSnackbar(message = it) }
         }
@@ -217,12 +217,12 @@ private fun ErrorTransactionDetailsCompose(
 
 @Preview(showBackground = true)
 @Composable
-private fun TransactionDetailScreenPreview() {
+private fun DetailScreenPreview() {
     IBankTheme {
-        TransactionDetailScreen(
-            attributes = TransactionDetailsAttributes(
+        DetailsScreen(
+            attributes = DetailsAttributes(
                 transactionId = "",
-                actions = TransactionDetailsActions {}
+                actions = DetailsActions {}
             )
         )
     }
