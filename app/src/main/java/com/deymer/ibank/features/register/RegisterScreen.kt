@@ -1,11 +1,9 @@
 package com.deymer.ibank.features.register
 
-import android.content.Context
-import android.net.Uri
-import android.os.Environment
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -40,10 +38,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.core.content.FileProvider
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.airbnb.lottie.compose.LottieConstants
 import com.deymer.ibank.ui.colors.black60
+import com.deymer.ibank.ui.colors.honeydew
 import com.deymer.ibank.ui.colors.melon
 import com.deymer.ibank.ui.components.ButtonSize
 import com.deymer.ibank.ui.components.ButtonStyle
@@ -55,10 +53,11 @@ import com.deymer.ibank.ui.components.Tag
 import com.deymer.ibank.ui.components.TapButton
 import com.deymer.ibank.ui.components.TopBar
 import com.deymer.ibank.ui.theme.IBankTheme
+import com.deymer.ibank.ui.utils.createImageUri
 import com.deymer.presentation.R
 import com.deymer.presentation.extensions.size
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.io.File
 
 @Composable
 fun RegisterScreen(
@@ -83,7 +82,9 @@ fun RegisterScreen(
         }
     }
     when(uiState) {
-        RegisterUiState.Success -> actions.onPrimaryAction.invoke()
+        RegisterUiState.Success -> SuccessCompose {
+            actions.onPrimaryAction.invoke()
+        }
         RegisterUiState.Loading -> LoadingCompose()
         RegisterUiState.Default -> BodyCompose(
             errorState,
@@ -97,17 +98,6 @@ fun RegisterScreen(
             { takePhoto() },
             actions
         )
-    }
-}
-
-private fun createImageUri(context: Context): Uri? {
-    val timeStamp: String = System.currentTimeMillis().toString()
-    val storageDir: File? = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-    val authority = "${context.packageName}.provider"
-    return storageDir?.let {
-        val fileName = "JPEG_${timeStamp}_"
-        val file = File.createTempFile(fileName, ".jpg", it)
-        FileProvider.getUriForFile(context, authority, file)
     }
 }
 
@@ -375,6 +365,35 @@ private fun BottomBarCompose(
                 modifier = Modifier.padding(start = 4.dp),
                 onClick = onNavigateToLogin
             )
+        }
+    }
+}
+
+@Composable
+private fun SuccessCompose(
+    onNavigateToHome: () -> Unit
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = honeydew),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Lottie(
+            rawRes = R.raw.success_check,
+            modifier = Modifier.padding(top = 20.dp),
+            size = 120.dp,
+            iterations = 1
+        )
+        Text(
+            modifier = Modifier.padding(top = 32.dp),
+            text = stringResource(id = R.string.success_register),
+            style = MaterialTheme.typography.headlineLarge,
+        )
+        LaunchedEffect(key1 = true) {
+            delay(2000)
+            onNavigateToHome.invoke()
         }
     }
 }
