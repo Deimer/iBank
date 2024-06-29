@@ -22,6 +22,8 @@ import com.deymer.ibank.features.splash.SplashScreenActions
 import com.deymer.ibank.features.transaction.details.DetailsActions
 import com.deymer.ibank.features.transaction.details.DetailsAttributes
 import com.deymer.ibank.features.transaction.details.DetailsScreen
+import com.deymer.ibank.features.transaction.transfer.TransferScreenActions
+import com.deymer.ibank.features.transaction.transfer.TransferScreen
 import com.deymer.ibank.navigation.AppScreens.SplashScreen
 import com.deymer.ibank.navigation.AppScreens.LoginScreen
 import com.deymer.ibank.navigation.AppScreens.RegisterScreen
@@ -31,6 +33,7 @@ import com.deymer.ibank.navigation.AppScreens.UserGraph
 import com.deymer.ibank.navigation.AppScreens.ProfileScreen
 import com.deymer.ibank.navigation.AppScreens.DetailsScreen
 import com.deymer.ibank.navigation.AppScreens.RechargeScreen
+import com.deymer.ibank.navigation.AppScreens.TransferScreen
 import com.deymer.ibank.navigation.RouteArguments.TRANSACTION_ID
 
 @Composable
@@ -93,7 +96,7 @@ fun AppNavigation() {
                         navController.navigate(RechargeScreen.route)
                     },
                     onQuaternaryAction = {
-                        navController.navigate(RechargeScreen.route)
+                        navController.navigate(TransferScreen.route)
                     }
                 ))
             }
@@ -129,6 +132,13 @@ fun AppNavigation() {
         }
         composable(route = RechargeScreen.route) {
             RechargeScreen(actions = RechargeScreenActions(
+                onPrimaryAction = {
+                    navController.popBackStack()
+                }
+            ))
+        }
+        composable(route = TransferScreen.route) {
+            TransferScreen(actions = TransferScreenActions(
                 onPrimaryAction = {
                     navController.popBackStack()
                 }

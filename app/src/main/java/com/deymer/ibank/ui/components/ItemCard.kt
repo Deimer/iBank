@@ -23,7 +23,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.deymer.ibank.ui.colors.midnightBlueDark
-import com.deymer.ibank.ui.colors.navy
 import com.deymer.ibank.ui.colors.seashell
 import com.deymer.ibank.ui.colors.white
 import com.deymer.presentation.R
@@ -33,8 +32,9 @@ import com.deymer.ibank.ui.models.UIOptionModel
 fun ItemCard(option: UIOptionModel) {
     Card(
         modifier = Modifier
-            .width(250.dp)
-            .height(120.dp),
+            .width(260.dp)
+            .height(124.dp)
+            .padding(start = 18.dp),
         shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(containerColor = option.backgroundColor),
         elevation = CardDefaults.cardElevation(

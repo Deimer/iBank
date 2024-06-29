@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -36,6 +37,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -257,6 +259,7 @@ private fun ContentCompose(
             EditText(
                 label = stringResource(id = R.string.first_name),
                 value = firstName,
+                keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences),
                 onValueChange = onFirstNameChange,
                 placeholder = stringResource(id = R.string.first_name),
                 modifier = Modifier.padding(top = 16.dp),
@@ -265,6 +268,7 @@ private fun ContentCompose(
             EditText(
                 label = stringResource(id = R.string.last_name),
                 value = lastName,
+                keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences),
                 onValueChange = onLastNameChange,
                 placeholder = stringResource(id = R.string.last_name),
                 modifier = Modifier.padding(top = 16.dp)

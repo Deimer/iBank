@@ -1,13 +1,14 @@
-package com.deymer.ibank.features.recharge
+package com.deymer.ibank.features.transaction.transfer
 
-import android.content.res.Configuration
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Snackbar
@@ -17,55 +18,54 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.airbnb.lottie.compose.LottieConstants
 import com.deymer.ibank.ui.colors.black60
 import com.deymer.ibank.ui.colors.melon
 import com.deymer.ibank.ui.components.AmountEditText
+import com.deymer.ibank.ui.components.AreaEditText
 import com.deymer.ibank.ui.components.ButtonSize
 import com.deymer.ibank.ui.components.ButtonStyle
 import com.deymer.ibank.ui.components.Lottie
-import com.deymer.ibank.ui.components.Spinner
+import com.deymer.ibank.ui.components.NumberEditText
 import com.deymer.ibank.ui.components.TapButton
 import com.deymer.ibank.ui.components.TopBar
-import com.deymer.ibank.ui.theme.IBankTheme
 import com.deymer.presentation.R
 import kotlinx.coroutines.launch
 
 @Composable
-fun RechargeScreen(
-    viewModel: RechargeViewModel = hiltViewModel(),
-    actions: RechargeScreenActions
+fun TransferScreen(
+    viewModel: TransferViewModel = hiltViewModel(),
+    actions: TransferScreenActions
 ) {
-    val uiState by viewModel.rechargeUiState.collectAsState()
-    val errorState by viewModel.rechargeErrorState.collectAsState()
+    val uiState by viewModel.transferUiState.collectAsState()
+    val errorState by viewModel.transferErrorState.collectAsState()
     val accountState by viewModel.accountState.collectAsState()
-    val selectedItem by viewModel.rechargeFormState.collectAsState()
+    val transferFormState by viewModel.transferFormState.collectAsState()
     val amount by remember { mutableFloatStateOf(0f) }
     when(uiState) {
-        RechargeUiState.Loading -> LoadingCompose()
-        RechargeUiState.Default -> BodyCompose(
-            accountNumber = accountState.number,
+        TransferUiState.Loading -> LoadingCompose()
+        TransferUiState.Default -> BodyCompose(
             actions = actions,
             errorState = errorState,
+            accountNumber = accountState.number,
+            accountNumberDestiny = transferFormState.accountNumberDestiny,
+            onAccountNumberDestiny = viewModel::onAccountNumberDestinyChange,
             amount = amount,
             onAmountChange = viewModel::onAmountChange,
-            onClickRecharge = viewModel::updateBalance,
-            onSelectItem = viewModel::onDescriptionChange,
-            selectedItem = selectedItem.description
+            description = transferFormState.description,
+            onDescriptionChange = viewModel::onDescriptionChange,
+            onClickTransfer = viewModel::validateAccount,
         )
     }
 }
@@ -87,32 +87,36 @@ private fun LoadingCompose() {
 
 @Composable
 private fun BodyCompose(
+    actions: TransferScreenActions,
+    errorState: TransferErrorState,
     accountNumber: String,
-    actions: RechargeScreenActions,
-    errorState: RechargeErrorState,
+    accountNumberDestiny: String,
     amount: Float,
+    onAccountNumberDestiny: (String) -> Unit,
     onAmountChange: (Float) -> Unit,
-    onClickRecharge: () -> Unit,
-    onSelectItem: (String) -> Unit,
-    selectedItem: String
+    description: String,
+    onDescriptionChange: (String) -> Unit,
+    onClickTransfer: () -> Unit
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
     Scaffold(
         topBar = { TopBarCompose(actions) },
-        bottomBar = { BottomBarCompose(onClickRecharge) },
+        bottomBar = { BottomBarCompose(onClickTransfer) },
         snackbarHost = { SnackbarHost(snackbarHostState) { data ->
             Snackbar(containerColor = melon, contentColor = black60, snackbarData = data)
         } }
     ) { paddingValues ->
         ContentCompose(
             paddingValues = paddingValues,
+            accountNumber = accountNumber,
+            accountNumberDestiny = accountNumberDestiny,
+            onAccountNumberDestiny = onAccountNumberDestiny,
             amount = amount,
             onAmountChange = onAmountChange,
-            accountNumber = accountNumber,
-            onSelectItem = onSelectItem,
-            selectedItem = selectedItem
+            description = description,
+            onDescriptionChange = onDescriptionChange,
         )
-        ErrorRechargeCompose(
+        ErrorTransferCompose(
             errorState = errorState,
             snackbarHostState = snackbarHostState
         )
@@ -120,10 +124,10 @@ private fun BodyCompose(
 }
 
 @Composable
-private fun TopBarCompose(actions: RechargeScreenActions) {
+private fun TopBarCompose(actions: TransferScreenActions) {
     TopBar(
         modifier = Modifier,
-        subtitle = stringResource(id = R.string.do_a_recharge),
+        subtitle = stringResource(id = R.string.do_a_transfer),
         navigationIcon = R.drawable.ic_back,
         onNavigationClick = actions.onPrimaryAction
     )
@@ -132,11 +136,13 @@ private fun TopBarCompose(actions: RechargeScreenActions) {
 @Composable
 private fun ContentCompose(
     paddingValues: PaddingValues = PaddingValues(),
+    accountNumber: String,
+    accountNumberDestiny: String,
+    onAccountNumberDestiny: (String) -> Unit,
     amount: Float,
     onAmountChange: (Float) -> Unit,
-    accountNumber: String,
-    onSelectItem: (String) -> Unit,
-    selectedItem: String
+    description: String,
+    onDescriptionChange: (String) -> Unit
 ) {
     Box(
         modifier = Modifier
@@ -144,8 +150,6 @@ private fun ContentCompose(
             .padding(paddingValues),
         contentAlignment = Alignment.Center
     ) {
-        val resourceArray = stringArrayResource(R.array.bank_list).toList()
-        val list by remember { derivedStateOf { resourceArray } }
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -153,11 +157,13 @@ private fun ContentCompose(
                     top = 20.dp,
                     start = 18.dp,
                     end = 18.dp
+                ).verticalScroll(
+                    rememberScrollState()
                 )
         ) {
             Text(
                 modifier = Modifier.padding(top = 16.dp),
-                text = stringResource(id = R.string.account_number_to_recharge),
+                text = stringResource(id = R.string.your_account_number),
                 style = MaterialTheme.typography.labelSmall,
             )
             Text(
@@ -170,7 +176,20 @@ private fun ContentCompose(
             )
             Text(
                 modifier = Modifier.padding(top = 32.dp),
-                text = stringResource(id = R.string.enter_the_amount),
+                text = stringResource(id = R.string.transfer_recipient_account_number),
+                style = MaterialTheme.typography.labelSmall,
+            )
+            NumberEditText(
+                label = stringResource(id = R.string.destination_account),
+                value = accountNumberDestiny,
+                onValueChange = onAccountNumberDestiny,
+                placeholder = stringResource(id = R.string.destination_account_number),
+                modifier = Modifier.padding(top = 16.dp),
+                imeAction = ImeAction.Next,
+            )
+            Text(
+                modifier = Modifier.padding(top = 32.dp),
+                text = stringResource(id = R.string.enter_the_amount_transfer),
                 style = MaterialTheme.typography.labelSmall,
             )
             AmountEditText(
@@ -182,25 +201,25 @@ private fun ContentCompose(
             )
             Text(
                 modifier = Modifier.padding(top = 32.dp),
-                text = stringResource(id = R.string.select_the_bank_recharge),
+                text = stringResource(id = R.string.add_a_description),
                 style = MaterialTheme.typography.labelSmall,
             )
-            Spinner(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 16.dp)
-                    .shadow(1.dp, RoundedCornerShape(8.dp)),
-                selectedItem = selectedItem.ifBlank { list[0] },
-                itemList = list,
-                onItemSelected = onSelectItem
+            AreaEditText(
+                label = stringResource(id = R.string.description),
+                value = description,
+                onValueChange = onDescriptionChange,
+                placeholder = stringResource(id = R.string.description),
+                modifier = Modifier.padding(top = 16.dp),
+                imeAction = ImeAction.Next,
             )
+            Spacer(modifier = Modifier.height(32.dp))
         }
     }
 }
 
 @Composable
-private fun ErrorRechargeCompose(
-    errorState: RechargeErrorState,
+private fun ErrorTransferCompose(
+    errorState: TransferErrorState,
     snackbarHostState: SnackbarHostState
 ) {
     val snackbarScope = rememberCoroutineScope()
@@ -208,9 +227,10 @@ private fun ErrorRechargeCompose(
     LaunchedEffect(errorState) {
         snackbarScope.launch {
             val message = when(errorState) {
-                is RechargeErrorState.Error -> errorState.message
-                RechargeErrorState.ErrorForm -> context.getString(R.string.you_must_complete_form)
-                RechargeErrorState.SuccessForm -> context.getString(R.string.success_recharge)
+                is TransferErrorState.Error -> errorState.message
+                TransferErrorState.ErrorForm -> context.getString(R.string.you_must_complete_form)
+                TransferErrorState.ErrorAccount -> context.getString(R.string.account_number_not_exist)
+                TransferErrorState.SuccessForm -> context.getString(R.string.success_transfer)
             }
             message?.let { snackbarHostState.showSnackbar(message = it) }
         }
@@ -230,23 +250,11 @@ private fun BottomBarCompose(
             )
     ) {
         TapButton(
-            text = stringResource(id = R.string.recharge),
+            text = stringResource(id = R.string.transfer),
             buttonStyle = ButtonStyle.Secondary,
             size = ButtonSize.Normal,
             modifier = Modifier,
             onClick = onClickRecharge
-        )
-    }
-}
-
-@Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
-@Composable
-private fun RechargeScreenPreview() {
-    IBankTheme {
-        RechargeScreen(
-            actions = RechargeScreenActions(
-                onPrimaryAction = {}
-            )
         )
     }
 }

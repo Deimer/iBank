@@ -59,14 +59,23 @@
     <string name="account_date">Creation date</string>
     <string name="account_transactions">Completed transactions</string>
     <string name="logout">Logout</string>
-    <string name="do_a_recharge">Do a recharge</string>
+    <string name="do_a_recharge">Make a recharge</string>
+    <string name="do_a_transfer">Make a transfer</string>
     <string name="account_number_to_recharge">Account number to reload</string>
+    <string name="your_account_number">Your account number</string>
     <string name="enter_the_amount">Enter the balance you wish to reload into your account, without periods or commas.</string>
     <string name="select_the_bank_recharge">Select the bank from which you will make the reload.</string>
-    <string name="perform_recharge">Perform recharge</string>
     <string name="success_recharge">Successful recharge! Your new balance is now available.</string>
+    <string name="success_transfer">Successful transfer! The amount has been deducted from your balance.</string>
     <string name="description_recharge">Deposit made from %1$s.</string>
     <string name="success_register">Welcome!</string>
+    <string name="transfer_recipient_account_number">Recipient\'s account number for the transfer</string>
+    <string name="destination_account">Destination account</string>
+    <string name="destination_account_number">Destination account number</string>
+    <string name="enter_the_amount_transfer">Enter the balance you wish to transfer to the recipient\'s account, without periods or commas.</string>
+    <string name="add_a_description">Add a description if you wish</string>
+    <string name="account_number_not_exist">The recipient\'s account number does not exist.</string>
+    <string name="invalid_transfer_amount_en">Invalid transfer amount. The amount exceeds your current balance.</string>
 
     <array name="bank_list">
         <item>Select bank</item>

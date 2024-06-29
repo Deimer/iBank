@@ -12,6 +12,10 @@ interface IAccountRepository {
 
     suspend fun fetchAccount(): OnResult<AccountModel>
 
+    suspend fun fetchAccount(
+        accountNumber: String
+    ): OnResult<AccountModel>
+
     suspend fun updateBalance(
         accountId: String,
         balance: Float

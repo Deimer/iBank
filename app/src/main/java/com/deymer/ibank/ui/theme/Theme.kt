@@ -50,8 +50,8 @@ private val LightColorScheme = lightColorScheme(
     surface = snow,
     tertiary = dark60,
     onTertiary = dark40,
-    tertiaryContainer = black80,
-    onTertiaryContainer = black60,
+    tertiaryContainer = dark80,
+    onTertiaryContainer = dark60,
     scrim = black40,
 )
 
