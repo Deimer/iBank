@@ -19,7 +19,7 @@
     <string name="are_you_not_user_yet">Not yet a iBank user?</string>
     <string name="create_account">Create account</string>
     <string name="enter_email_and_password">Enter a email and password to continue.</string>
-    <string name="the_email_or_password_do_not_match">The email or password do not match.</string>
+    <string name="invalid_credentials">The email address or password you entered is incorrect. Please try again.</string>
     <string name="email_example">example@domain.com</string>
     <string name="password_register">Enter your password</string>
     <string name="confirm_password">Confirm your password</string>

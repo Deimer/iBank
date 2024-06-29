@@ -113,6 +113,7 @@ private fun ErrorFormCompose(
                 LoginErrorState.FormError -> context.getString(R.string.enter_email_and_password)
                 LoginErrorState.EmailError -> context.getString(R.string.please_enter_valid_email)
                 LoginErrorState.PasswordError -> context.getString(R.string.invalid_password)
+                LoginErrorState.CredentialsError -> context.getString(R.string.invalid_credentials)
             }
             message?.let { snackbarHostState.showSnackbar(message = it) }
         }

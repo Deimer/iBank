@@ -1,6 +1,7 @@
 package com.deymer.network.manager
 
 import android.net.Uri
+import android.util.Log
 import com.deymer.network.NetworkConstants.Names.KEY_NAME_STORAGE
 import com.deymer.network.dto.UserDTO
 import com.google.firebase.auth.FirebaseAuth
@@ -16,10 +17,15 @@ class NetworkManager @Inject constructor(
 ): INetworkManager {
 
     override suspend fun login(userDTO: UserDTO): Boolean {
-        val authResult = firebaseAuth.signInWithEmailAndPassword(
-            userDTO.email, userDTO.password
-        ).await()
-        return authResult.user?.let { true } ?: false
+        return try {
+            val authResult = firebaseAuth.signInWithEmailAndPassword(
+                userDTO.email, userDTO.password
+            ).await()
+            authResult.user?.let { true } ?: false
+        } catch (e: Exception) {
+            Log.e(NetworkManager::class.java.name, e.message.toString())
+            false
+        }
     }
 
     override suspend fun register(
