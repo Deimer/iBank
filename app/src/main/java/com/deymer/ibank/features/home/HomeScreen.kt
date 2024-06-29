@@ -11,9 +11,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
@@ -47,6 +45,7 @@ import com.deymer.ibank.ui.colors.white
 import com.deymer.ibank.ui.components.ItemBox
 import com.deymer.ibank.ui.components.ItemCard
 import com.deymer.ibank.ui.components.Lottie
+import com.deymer.ibank.ui.components.RecyclerRow
 import com.deymer.ibank.ui.components.TopBar
 import com.deymer.ibank.ui.models.UIOptionModel
 import com.deymer.ibank.ui.models.UITransactionModel
@@ -168,16 +167,14 @@ private fun ContentCompose(
         contentAlignment = Alignment.Center
     ) {
         LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(
-                    start = 18.dp,
-                )
+            modifier = Modifier.fillMaxSize()
         ) {
             item { Spacer(modifier = Modifier.height(10.dp)) }
             item {
                 BalanceCardCompose(
-                    modifier = Modifier.padding(end = 18.dp),
+                    modifier = Modifier.padding(
+                        start = 18.dp, end = 18.dp
+                    ),
                     balance = stringResource(
                         id = R.string.balance_user,
                         accountState.balance,
@@ -185,22 +182,27 @@ private fun ContentCompose(
                     )
                 )
             }
+            item { Spacer(modifier = Modifier.height(20.dp)) }
             item {
                 Text(
-                    modifier = Modifier.padding(top = 20.dp),
+                    modifier = Modifier.padding(start = 18.dp, end = 18.dp),
                     text = stringResource(id = R.string.do_more),
                     style = MaterialTheme.typography.headlineMedium,
                 )
             }
             item {
-                OptionsCompose(
-                    modifier = Modifier.padding(top = 12.dp),
-                    options = options
+                Spacer(modifier = Modifier.height(12.dp))
+                RecyclerRow(
+                    list = options,
+                    itemContent = { option ->
+                        ItemCard(option = option as UIOptionModel)
+                    }
                 )
             }
+            item { Spacer(modifier = Modifier.height(20.dp)) }
             item {
                 Text(
-                    modifier = Modifier.padding(top = 20.dp),
+                    modifier = Modifier.padding(start = 18.dp, end = 18.dp),
                     text = stringResource(id = R.string.recent_transactions),
                     style = MaterialTheme.typography.headlineMedium,
                 )
@@ -267,28 +269,16 @@ private fun BalanceCardCompose(
 }
 
 @Composable
-private fun OptionsCompose(
-    options: List<UIOptionModel>,
-    modifier: Modifier = Modifier
-) {
-    LazyRow(
-        modifier = modifier,
-        horizontalArrangement = Arrangement.spacedBy(16.dp)
-    ) {
-        items(options) { option ->
-            ItemCard(option = option)
-        }
-        item { Spacer(modifier = Modifier.width(6.dp)) }
-    }
-}
-
-@Composable
 private fun TransactionsCompose(
     transaction: UITransactionModel,
     modifier: Modifier = Modifier
 ) {
     ItemBox(
-        modifier = modifier.padding(end = 18.dp),
+        modifier = modifier.padding(
+            top = 12.dp,
+            start = 18.dp,
+            end = 18.dp
+        ),
         transaction = transaction
     )
 }

@@ -4,7 +4,6 @@ import com.deymer.database.DataBaseConstants.Tables.ACCOUNTS_TABLE
 import com.deymer.database.entities.AccountEntity
 import com.deymer.database.managers.firestore.IFirestoreManager
 import com.deymer.datasource.DataSourceConstants.KEY_BALANCE
-import com.deymer.datasource.DataSourceConstants.KEY_USER_ID
 import javax.inject.Inject
 
 class AccountDataSource @Inject constructor(
@@ -16,11 +15,12 @@ class AccountDataSource @Inject constructor(
     ) = firestoreManager.save(entity = account)
 
     override suspend fun getAccount(
-        userId: String
+        key: String,
+        value: String
     ): AccountEntity? {
         return firestoreManager.getByValue(
-            KEY_USER_ID,
-            userId,
+            key,
+            value,
             ACCOUNTS_TABLE
         )?.let {
             it.toObject(AccountEntity::class.java)?.apply {

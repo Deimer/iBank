@@ -9,7 +9,8 @@ interface IAccountDataSource {
     ): Boolean
 
     suspend fun getAccount(
-        userId: String
+        key: String,
+        value: String
     ): AccountEntity?
 
     suspend fun updateAccount(

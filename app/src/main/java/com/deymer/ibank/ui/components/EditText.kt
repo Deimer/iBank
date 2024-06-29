@@ -29,12 +29,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import com.deymer.presentation.R
 import com.deymer.ibank.ui.colors.burntSiennaDark
 import com.deymer.ibank.ui.colors.burntSiennaMedium
-import com.deymer.ibank.ui.colors.dark80
+import com.deymer.ibank.ui.theme.IBankTheme
 import com.deymer.presentation.utils.formatMoney
 import com.deymer.presentation.utils.parseMoney
 import com.deymer.presentation.utils.validateAmount
@@ -81,7 +82,8 @@ fun EditText(
     singleLine: Boolean = true,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     trailingIcon: @Composable (() -> Unit)? = null,
-    enabled: Boolean = true
+    enabled: Boolean = true,
+    maxLines: Int = 1
 ) {
     TextField(
         modifier = modifier.fillMaxWidth(),
@@ -99,7 +101,8 @@ fun EditText(
             fontFamily = poppinsFamily
         ),
         colors = textFieldColors(),
-        enabled = enabled
+        enabled = enabled,
+        maxLines = maxLines
     )
 }
 
@@ -196,6 +199,7 @@ fun AmountEditText(
     modifier: Modifier = Modifier,
     value: Float,
     onValueChange: (Float) -> Unit,
+    imeAction: ImeAction = ImeAction.Done,
     label: String = "",
     placeholder: String = "",
     prefix: String = "$",
@@ -226,10 +230,10 @@ fun AmountEditText(
         },
         label = { Text(text = label) },
         placeholder = { Text(text = placeholder) },
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number).copy(imeAction = imeAction),
         singleLine = true,
         textStyle = TextStyle(
-            color = dark80,
+            color = MaterialTheme.colorScheme.tertiaryContainer,
             fontSize = 18.sp,
             fontFamily = poppinsFamily
         ),
@@ -249,5 +253,95 @@ fun AmountEditTextPreview() {
             label = "Amount",
             placeholder = "Enter the amount"
         )
+    }
+}
+
+@Composable
+fun NumberEditText(
+    modifier: Modifier = Modifier,
+    value: String,
+    onValueChange: (String) -> Unit,
+    label: String = "",
+    placeholder: String = "",
+    imeAction: ImeAction = ImeAction.Done,
+    maxDigits: Int = 10,
+    enabled: Boolean = true
+) {
+    var number by remember { mutableStateOf(value) }
+    EditText(
+        modifier = modifier,
+        value = number,
+        onValueChange = { newValue ->
+            if (newValue.length <= maxDigits && newValue.all { it.isDigit() }) {
+                number = newValue
+                onValueChange(newValue)
+            }
+        },
+        label = label,
+        placeholder = placeholder,
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+        imeAction = imeAction,
+        singleLine = true,
+        enabled = enabled
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+fun NumberEditTextPreview() {
+    IBankTheme {
+        var accountNumber by remember { mutableStateOf("") }
+        Column(modifier = Modifier.padding(all = 8.dp)) {
+            NumberEditText(
+                value = accountNumber,
+                onValueChange = { accountNumber = it },
+                label = "Number account",
+                placeholder = "Input number account"
+            )
+        }
+    }
+}
+
+@Composable
+fun AreaEditText(
+    modifier: Modifier = Modifier,
+    value: String,
+    onValueChange: (String) -> Unit,
+    label: String = "",
+    placeholder: String = "",
+    imeAction: ImeAction = ImeAction.Done,
+    enabled: Boolean = true,
+    maxLines: Int = 3
+) {
+    EditText(
+        modifier = modifier,
+        value = value,
+        onValueChange = onValueChange,
+        label = label,
+        placeholder = placeholder,
+        keyboardOptions = KeyboardOptions(
+            keyboardType = KeyboardType.Text,
+            imeAction = imeAction,
+            capitalization = KeyboardCapitalization.Sentences
+        ),
+        singleLine = false,
+        maxLines = maxLines,
+        enabled = enabled
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+fun AreaEditTextPreview() {
+    IBankTheme {
+        var description by remember { mutableStateOf("") }
+        Column(modifier = Modifier.padding(all = 8.dp)) {
+            AreaEditText(
+                value = description,
+                onValueChange = { description = it },
+                label = "Description",
+                placeholder = "Input a description"
+            )
+        }
     }
 }

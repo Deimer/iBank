@@ -3,10 +3,13 @@ package com.deymer.ibank.di
 import com.deymer.repository.repositories.account.IAccountRepository
 import com.deymer.repository.repositories.transaction.ITransactionRepository
 import com.deymer.repository.repositories.user.IUserRepository
+import com.deymer.usecase.account.FetchAccountByNumberUseCase
 import com.deymer.usecase.account.CreateAccountUseCase
 import com.deymer.usecase.account.FetchAccountUseCase
+import com.deymer.usecase.account.TransferAmountUseCase
 import com.deymer.usecase.account.UpdateBalanceUseCase
 import com.deymer.usecase.transaction.CreateTransactionUseCase
+import com.deymer.usecase.transaction.CreateTransferTransactionsUseCase
 import com.deymer.usecase.transaction.FetchTransactionUseCase
 import com.deymer.usecase.transaction.FetchTransactionsUseCase
 import com.deymer.usecase.user.FetchUserUseCase
@@ -76,6 +79,18 @@ object UseCaseModule {
         accountRepository: IAccountRepository
     ) = UpdateBalanceUseCase(accountRepository)
 
+    @Provides
+    @ActivityRetainedScoped
+    fun provideFetchAccountByNumberUseCase(
+        accountRepository: IAccountRepository
+    ) = FetchAccountByNumberUseCase(accountRepository)
+
+    @Provides
+    @ActivityRetainedScoped
+    fun provideTransferAmountUseCase(
+        accountRepository: IAccountRepository
+    ) = TransferAmountUseCase(accountRepository)
+
     /// TRANSACTIONS ////////////////////////////
 
     @Provides
@@ -95,4 +110,10 @@ object UseCaseModule {
     fun provideFetchTransactionsUseCase(
         transactionRepository: ITransactionRepository
     ) = FetchTransactionsUseCase(transactionRepository)
+
+    @Provides
+    @ActivityRetainedScoped
+    fun provideCreateTransferTransactionsUseCase(
+        transactionRepository: ITransactionRepository
+    ) = CreateTransferTransactionsUseCase(transactionRepository)
 }
