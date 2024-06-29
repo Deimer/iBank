@@ -24,6 +24,7 @@ sealed class LoginErrorState {
     data object FormError: LoginErrorState()
     data object EmailError: LoginErrorState()
     data object PasswordError: LoginErrorState()
+    data object CredentialsError: LoginErrorState()
     data class Error(val message: String? = null): LoginErrorState()
 }
 
@@ -72,7 +73,13 @@ class LoginViewModel @Inject constructor(
                     _loginUiState.emit(LoginUiState.Loading)
                     when (val result = loginUseCase.invoke(formState.email, formState.password)) {
                         is OnResult.Success -> {
-                            _loginUiState.emit(LoginUiState.Success)
+                            when {
+                                result.data -> _loginUiState.emit(LoginUiState.Success)
+                                else -> {
+                                    _loginUiState.emit(LoginUiState.Default)
+                                    _loginErrorState.emit(LoginErrorState.CredentialsError)
+                                }
+                            }
                         }
                         is OnResult.Error -> {
                             _loginUiState.emit(LoginUiState.Default)
