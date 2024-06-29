@@ -1,4 +1,4 @@
-package com.deymer.datasource
+package com.deymer.datasource.transaction
 
 import com.deymer.database.DataBaseConstants.Tables.TRANSACTIONS_TABLE
 import com.deymer.database.entities.TransactionEntity
