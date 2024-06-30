@@ -1,5 +1,6 @@
 package com.deymer.ibank.ui.components
 
+import android.content.res.Configuration
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -33,7 +34,6 @@ import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import com.deymer.presentation.R
-import com.deymer.ibank.ui.colors.burntSiennaDark
 import com.deymer.ibank.ui.colors.burntSiennaMedium
 import com.deymer.ibank.ui.theme.IBankTheme
 import com.deymer.presentation.utils.formatMoney
@@ -45,24 +45,14 @@ fun textFieldColors(): TextFieldColors {
     return TextFieldDefaults.colors(
         focusedContainerColor = Color.Transparent,
         unfocusedContainerColor = Color.Transparent,
-        disabledContainerColor = Color.Transparent,
-        errorContainerColor = Color.Transparent,
         focusedIndicatorColor = MaterialTheme.colorScheme.onTertiaryContainer,
         unfocusedIndicatorColor = MaterialTheme.colorScheme.scrim,
-        disabledIndicatorColor = Color.Transparent,
-        errorIndicatorColor = burntSiennaDark,
         focusedTextColor = MaterialTheme.colorScheme.tertiaryContainer,
         unfocusedTextColor = MaterialTheme.colorScheme.tertiaryContainer,
         disabledTextColor = MaterialTheme.colorScheme.scrim,
-        errorTextColor = MaterialTheme.colorScheme.tertiaryContainer,
-        focusedLeadingIconColor = Color.Transparent,
-        unfocusedLeadingIconColor = Color.Transparent,
-        disabledLeadingIconColor = Color.Transparent,
-        errorLeadingIconColor = Color.Transparent,
         focusedTrailingIconColor = burntSiennaMedium,
         unfocusedTrailingIconColor = burntSiennaMedium,
         disabledTrailingIconColor = MaterialTheme.colorScheme.scrim,
-        errorTrailingIconColor = burntSiennaDark,
         focusedLabelColor = MaterialTheme.colorScheme.scrim,
         unfocusedLabelColor = MaterialTheme.colorScheme.scrim,
         focusedPlaceholderColor = MaterialTheme.colorScheme.onTertiaryContainer,
@@ -330,7 +320,11 @@ fun AreaEditText(
     )
 }
 
-@Preview(showBackground = true)
+@Preview(
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    device = "id:pixel_5"
+)
 @Composable
 fun AreaEditTextPreview() {
     IBankTheme {

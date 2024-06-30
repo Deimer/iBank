@@ -48,9 +48,9 @@
     <string name="transaction_details">Detalle de la transacción</string>
     <string name="your_profile">Tu perfil</string>
     <string name="account_details">Detalles de tu cuenta</string>
-    <string name="account_number">Número de cuenta:\n %1$s</string>
-    <string name="account_date">Fecha de creación:\n %1$s</string>
-    <string name="account_transactions">Transacciones realizadas:\n %1$s</string>
+    <string name="account_number">Número de cuenta</string>
+    <string name="account_date">Fecha de creación</string>
+    <string name="account_transactions">Transacciones realizadas</string>
     <string name="logout">Cerrar sesión</string>
     <string name="do_a_recharge">Haz una recarga</string>
     <string name="account_number_to_recharge">Número de cuenta a recargar</string>
