@@ -1,4 +1,4 @@
-package com.deymer.repository.user
+package com.deymer.repository.repositories.user
 
 import android.net.Uri
 import com.deymer.database.entities.UserEntity
