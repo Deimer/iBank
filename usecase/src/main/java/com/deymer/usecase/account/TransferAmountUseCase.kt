@@ -26,17 +26,19 @@ class TransferAmountUseCase @Inject constructor(
         val updateCurrentBalance = accountRepository.updateBalance(
             accountId, newBalance
         )
-        val newValueDestiny = currentBalanceDestiny + transferAmount
-        val newBalanceDestiny = decimalFormat.format(newValueDestiny).toFloat()
-        val transferToDestiny = accountRepository.updateBalance(
-            accountIdDestiny, newBalanceDestiny
-        )
-        return when {
-            updateCurrentBalance is OnResult.Success && transferToDestiny is OnResult.Success ->
-                OnResult.Success(true)
-            updateCurrentBalance is OnResult.Error ->
-                OnResult.Error(updateCurrentBalance.exception)
-            else -> OnResult.Error(IllegalArgumentException(""))
+        return when (updateCurrentBalance) {
+            is OnResult.Success -> {
+                val newValueDestiny = currentBalanceDestiny + transferAmount
+                val newBalanceDestiny = decimalFormat.format(newValueDestiny).toFloat()
+                val transferToDestiny = accountRepository.updateBalance(
+                    accountIdDestiny, newBalanceDestiny
+                )
+                when (transferToDestiny) {
+                    is OnResult.Success -> OnResult.Success(true)
+                    is OnResult.Error -> OnResult.Error(transferToDestiny.exception)
+                }
+            }
+            is OnResult.Error -> OnResult.Error(updateCurrentBalance.exception)
         }
     }
 }
