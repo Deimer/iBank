@@ -2,9 +2,9 @@ name: Android CI
 
 on:
   push:
-    branches: [ "feat/IBK-038-implement-ci-cd" ]
+    branches: [ "feat/IBK-038-implement-ci-cd", "master", "develop" ]
   pull_request:
-    branches: [ "develop" ]
+    branches: [ "develop", "master" ]
 
 jobs:
   build:
