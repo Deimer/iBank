@@ -1,4 +1,4 @@
-package com.deymer.repository.transaction
+package com.deymer.repository.repositories.transaction
 
 import com.deymer.database.entities.TransactionEntity
 import com.deymer.datasource.remote.transaction.ITransactionDataSource

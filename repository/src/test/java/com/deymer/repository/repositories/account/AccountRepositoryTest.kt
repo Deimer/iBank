@@ -1,4 +1,4 @@
-package com.deymer.repository.account
+package com.deymer.repository.repositories.account
 
 import com.deymer.database.entities.AccountEntity
 import com.deymer.database.entities.TransactionEntity
