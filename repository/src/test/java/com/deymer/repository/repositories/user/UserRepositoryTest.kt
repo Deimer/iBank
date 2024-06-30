@@ -35,9 +35,9 @@ class UserRepositoryTest {
     @Test
     fun `register user should succeed`() = runTest {
         val userModel = UserModel(
-            name = "John",
-            surname = "Doe",
-            email = "john.doe@example.com",
+            name = "User",
+            surname = "Test",
+            email = "user.test@example.com",
             password = "password123",
             documentPhoto = mock(Uri::class.java)
         )
@@ -49,7 +49,7 @@ class UserRepositoryTest {
 
     @Test
     fun `login user should succeed`() = runTest {
-        val email = "john.doe@example.com"
+        val email = "user.test@example.com"
         val password = "password123"
         `when`(userDataSource.login(email, password)).thenReturn(true)
         val result = userRepository.loginUser(email, password)
@@ -60,15 +60,15 @@ class UserRepositoryTest {
     @Test
     fun `fetch user should return user model`() = runTest {
         val userEntity = UserEntity(
-            name = "John",
-            surname = "Doe",
-            email = "john.doe@example.com",
+            name = "User",
+            surname = "Test",
+            email = "user.test@example.com",
             urlPhoto = "http://photo.url"
         )
         `when`(userDataSource.getUser()).thenReturn(userEntity)
         val result = userRepository.fetchUser()
         assertTrue(result is OnResult.Success)
-        assertEquals("John", (result as OnResult.Success).data.name)
+        assertEquals("User", (result as OnResult.Success).data.name)
         verify(userDataSource).getUser()
     }
 

@@ -76,9 +76,9 @@ class UserDataSourceTest {
     fun `save user should succeed with valid data`() = runTest {
         val uri = mock(Uri::class.java)
         val user = UserEntity(
-            name = "John",
-            surname = "Doe",
-            email = "john.doe@example.com",
+            name = "User",
+            surname = "Test",
+            email = "user.test@example.com",
             password = "password123",
             documentPhoto = uri
         )
@@ -96,7 +96,7 @@ class UserDataSourceTest {
 
     @Test
     fun `login should succeed with valid credentials`() = runTest {
-        val email = "john.doe@example.com"
+        val email = "user.test@example.com"
         val password = "password123"
         `when`(networkManager.login(any<UserDTO>())).thenReturn(true)
         val result = userDataSource.login(email, password)
@@ -108,9 +108,9 @@ class UserDataSourceTest {
     fun `get user should return user data when user is in session`() = runTest {
         val userId = "userId"
         val user = UserEntity(
-            name = "John",
-            surname = "Doe",
-            email = "john.doe@example.com"
+            name = "User",
+            surname = "Test",
+            email = "user.test@example.com"
         )
         val documentSnapshot = mock(DocumentSnapshot::class.java)
         `when`(networkManager.getUserInSession()).thenReturn(userId)
@@ -155,9 +155,9 @@ class UserDataSourceTest {
     @Test
     fun `save user should fail with invalid data`() = runTest {
         val user = UserEntity(
-            name = "John",
-            surname = "Doe",
-            email = "john.doe@example.com",
+            name = "User",
+            surname = "Test",
+            email = "user.test@example.com",
             password = "password123"
         )
         val userId = "userId"
@@ -171,7 +171,7 @@ class UserDataSourceTest {
 
     @Test
     fun `login should fail with invalid credentials`() = runTest {
-        val email = "john.doe@example.com"
+        val email = "user.test@example.com"
         val password = "wrongpassword"
         `when`(networkManager.login(any<UserDTO>())).thenReturn(false)
         val result = userDataSource.login(email, password)
