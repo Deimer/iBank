@@ -15,8 +15,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 import com.deymer.ibank.ui.colors.black40
-import com.deymer.ibank.ui.colors.black60
-import com.deymer.ibank.ui.colors.black80
 import com.deymer.ibank.ui.colors.dark
 import com.deymer.ibank.ui.colors.dark40
 import com.deymer.ibank.ui.colors.dark60
@@ -58,7 +56,7 @@ private val LightColorScheme = lightColorScheme(
 @Composable
 fun IBankTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    dynamicColor: Boolean = true,
+    dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {

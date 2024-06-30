@@ -64,7 +64,8 @@ fun ItemCard(option: UIOptionModel) {
                 contentDescription = null,
                 modifier = Modifier
                     .size(100.dp)
-                    .align(Alignment.BottomEnd),
+                    .align(Alignment.BottomEnd)
+                    .padding(top = 10.dp),
             )
         }
     }
