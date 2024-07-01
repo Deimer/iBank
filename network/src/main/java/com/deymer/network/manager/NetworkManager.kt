@@ -1,7 +1,6 @@
 package com.deymer.network.manager
 
 import android.net.Uri
-import android.util.Log
 import com.deymer.network.NetworkConstants.Names.KEY_NAME_STORAGE
 import com.deymer.network.dto.UserDTO
 import com.google.firebase.auth.FirebaseAuth
@@ -23,7 +22,6 @@ class NetworkManager @Inject constructor(
             ).await()
             authResult.user?.let { true } ?: false
         } catch (e: Exception) {
-            Log.e(NetworkManager::class.java.name, e.message.toString())
             false
         }
     }
