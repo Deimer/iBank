@@ -1,10 +1,10 @@
-name: Android CI
+name: iBank CI
 
 on:
   push:
-    branches: [ "feat/IBK-038-implement-ci-cd", "master", "develop" ]
+    branches: [ "master", "develop" ]
   pull_request:
-    branches: [ "develop", "master" ]
+    branches: [ "master", "develop" ]
 
 jobs:
   build:
