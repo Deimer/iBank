@@ -102,8 +102,8 @@ Hilt is used for dependency injection, ensuring modular and testable code.
    git clone https://github.com/Deimer/iBank.git
    ```
 2. Open the project in Android Studio.
-3. Configure Firebase with your project data.
-4. Build and run the application on a device or emulator.
+3. Build and run the application on a device or emulator.
+4. Use credentials: Email -> test@test.com Password -> Test123
 
 ## License
 This project is licensed under the MIT License. See the LICENSE file for details.
