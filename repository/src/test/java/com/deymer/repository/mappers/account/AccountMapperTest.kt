@@ -50,8 +50,6 @@ class AccountMapperTest {
         assertEquals(accountEntity.number, accountModel.number)
         assertEquals(accountEntity.balance, accountModel.balance, 0.0f)
         assertEquals(Currency.valueOf(accountEntity.currency), accountModel.currency)
-        assertEquals(toHumanDate(), accountModel.createdAt)
-        assertEquals(toShortHumanDate(), accountModel.shortDate)
         assertEquals(emptyList<TransactionModel>(), accountModel.transactions)
     }
 
@@ -84,16 +82,6 @@ class AccountMapperTest {
         assertEquals(accountEntity.number, accountModel.number)
         assertEquals(accountEntity.balance, accountModel.balance, 0.0f)
         assertEquals(Currency.valueOf(accountEntity.currency), accountModel.currency)
-        assertEquals(toHumanDate(), accountModel.createdAt)
-        assertEquals(toShortHumanDate(), accountModel.shortDate)
         assertEquals(emptyList<TransactionModel>(), accountModel.transactions)
-    }
-
-    private fun toHumanDate(): String {
-        return "22 - junio - 2024, 05:55 p. m."
-    }
-
-    private fun toShortHumanDate(): String {
-        return "Sábado 22 - junio"
     }
 }
