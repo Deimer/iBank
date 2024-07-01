@@ -1,0 +1,90 @@
+<resources>
+
+    <string name="app_name">iBank</string>
+
+    <string name="balance_user" translatable="false">$%1$s %2$s</string>
+    <string name="balance_item" translatable="false">$%1$s</string>
+    <string name="balance_item_usd" translatable="false">$%1$s USD</string>
+    <string name="full_name" translatable="false">%1$s\n%2$s</string>
+    <string name="initial_photo_size" translatable="false">0.0 KB</string>
+    <string name="initial_balance" translatable="false">$ 0.0</string>
+    <string name="zero" translatable="false">0</string>
+
+    <string name="continue_text">Continue</string>
+    <string name="title_splash">Technical Test Android</string>
+    <string name="log_in">Login</string>
+    <string name="sign_in_register">Sign in</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="are_you_not_user_yet">Not yet a iBank user?</string>
+    <string name="create_account">Create account</string>
+    <string name="enter_email_and_password">Enter a email and password to continue.</string>
+    <string name="invalid_credentials">The email address or password you entered is incorrect. Please try again.</string>
+    <string name="email_example">example@domain.com</string>
+    <string name="password_register">Enter your password</string>
+    <string name="confirm_password">Confirm your password</string>
+    <string name="password_register_hint">Password (at least 6 characters)</string>
+    <string name="first_name">First name</string>
+    <string name="last_name">Last name</string>
+    <string name="already_a_user">Already have an account?</string>
+    <string name="create_your_account">Create your account</string>
+    <string name="please_enter_valid_email">Please enter a valid email.</string>
+    <string name="you_must_complete_form">You must complete the form before proceeding.</string>
+    <string name="error_empty_first_name">You must enter your first name.</string>
+    <string name="error_empty_last_name">You must enter your last name.</string>
+    <string name="invalid_password">Ensure your password is at least 6 characters long and includes a combination of both letters and numbers for enhanced security.</string>
+    <string name="passwords_do_not_match">Make sure both passwords match.</string>
+    <string name="account_success_created">Your account has been successfully created!</string>
+    <string name="hi_user">Hi, %1$s</string>
+    <string name="available_balance">Available balance</string>
+    <string name="do_more">Do more</string>
+    <string name="make_recharge">Recharge your\naccount</string>
+    <string name="transfer_to_friend">Transfer balance to\na friend</string>
+    <string name="recharge">Recharge</string>
+    <string name="transfer">Transfer</string>
+    <string name="recent_transactions">Recent transactions</string>
+    <string name="without_transactions">You have no transactions\nat the moment.</string>
+    <string name="upload_photo_document_id">Add a photo of your document.</string>
+    <string name="take_a_photo">Snap a photo of your document front.</string>
+    <string name="photo_captured">Photo captured and validated.</string>
+    <string name="you_add_a_photo_document">You must add a photo of your document to continue.</string>
+    <string name="amount">Amount</string>
+    <string name="transaction_type">Transaction type</string>
+    <string name="full_date">Transaction date</string>
+    <string name="description">Description</string>
+    <string name="transaction_details">Transaction details</string>
+    <string name="your_profile">Your profile</string>
+    <string name="account_details">Account details</string>
+    <string name="account_number">Account number</string>
+    <string name="account_date">Creation date</string>
+    <string name="account_transactions">Completed transactions</string>
+    <string name="logout">Logout</string>
+    <string name="do_a_recharge">Make a recharge</string>
+    <string name="do_a_transfer">Make a transfer</string>
+    <string name="account_number_to_recharge">Account number to reload</string>
+    <string name="your_account_number">Your account number</string>
+    <string name="enter_the_amount">Enter the balance you wish to reload into your account, without periods or commas.</string>
+    <string name="select_the_bank_recharge">Select the bank from which you will make the reload.</string>
+    <string name="success_recharge">Successful recharge! Your new balance is now available.</string>
+    <string name="success_transfer">Successful transfer! The amount has been deducted from your balance.</string>
+    <string name="description_recharge">Deposit made from %1$s.</string>
+    <string name="success_register">Welcome!</string>
+    <string name="transfer_recipient_account_number">Recipient\'s account number for the transfer</string>
+    <string name="destination_account">Destination account</string>
+    <string name="destination_account_number">Destination account number</string>
+    <string name="enter_the_amount_transfer">Enter the balance you wish to transfer to the recipient\'s account, without periods or commas.</string>
+    <string name="add_a_description">Add a description if you wish</string>
+    <string name="account_number_not_exist">The recipient\'s account number does not exist.</string>
+    <string name="invalid_transfer_amount_en">Invalid transfer amount. The amount exceeds your current balance.</string>
+
+    <array name="bank_list">
+        <item>Select bank</item>
+        <item>JPMorgan Chase &amp; Co</item>
+        <item>HSBC Holdings plc</item>
+        <item>Banco Santander</item>
+        <item>BNP Paribas</item>
+        <item>Deutsche Bank</item>
+        <item>Credit Suisse</item>
+    </array>
+
+</resources>

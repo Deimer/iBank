@@ -14,34 +14,49 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
+import com.deymer.ibank.ui.colors.black40
+import com.deymer.ibank.ui.colors.dark
+import com.deymer.ibank.ui.colors.dark40
+import com.deymer.ibank.ui.colors.dark60
+import com.deymer.ibank.ui.colors.dark80
+import com.deymer.ibank.ui.colors.navy
+import com.deymer.ibank.ui.colors.snow
+import com.deymer.ibank.ui.colors.white40
+import com.deymer.ibank.ui.colors.white60
+import com.deymer.ibank.ui.colors.white80
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
+    primary = snow,
+    onPrimary = dark,
+    secondary = navy,
+    onSecondary = snow,
+    background = dark80,
+    surface = dark,
+    tertiary = white60,
+    onTertiary = white40,
+    tertiaryContainer = white80,
+    onTertiaryContainer = white60,
+    scrim = white40,
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
-
-    /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
+    primary = snow,
+    onPrimary = dark,
+    secondary = snow,
+    onSecondary = snow,
+    background = snow,
+    surface = snow,
+    tertiary = dark60,
+    onTertiary = dark40,
+    tertiaryContainer = dark80,
+    onTertiaryContainer = dark60,
+    scrim = black40,
 )
 
 @Composable
 fun IBankTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
+    dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
@@ -49,7 +64,6 @@ fun IBankTheme(
             val context = LocalContext.current
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
         }
-
         darkTheme -> DarkColorScheme
         else -> LightColorScheme
     }
@@ -57,14 +71,18 @@ fun IBankTheme(
     if (!view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window
-            window.statusBarColor = colorScheme.primary.toArgb()
-            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme
+            window.statusBarColor = if (darkTheme) {
+                dark.toArgb()
+            } else {
+                colorScheme.primary.toArgb()
+            }
+            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !darkTheme
         }
     }
 
     MaterialTheme(
         colorScheme = colorScheme,
-        typography = Typography,
+        typography = AppTypography,
         content = content
     )
 }

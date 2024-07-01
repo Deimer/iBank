@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">iMoney</string>
+
+    <string name="continue_text">Continuar</string>
+    <string name="title_splash">Prueba Técnica Android</string>
+    <string name="log_in">Login</string>
+    <string name="sign_in_register">Inicia sesión</string>
+    <string name="email">Correo</string>
+    <string name="password">Contraseña</string>
+    <string name="are_you_not_user_yet">¿Sin cuenta de iMoney?</string>
+    <string name="create_account">Crear una cuenta</string>
+    <string name="enter_email_and_password">Ingresa un correo electrónico y una contraseña para iniciar sesión.</string>
+    <string name="invalid_credentials">El correo electrónico o la contraseña que ingresaste son incorrectos. Por favor, inténtalo de nuevo.</string>
+    <string name="email_example">ejemplo@dominio.com</string>
+    <string name="password_register">Ingresa tu contraseña</string>
+    <string name="confirm_password">Confirma tu contraseña</string>
+    <string name="password_register_hint">Contraseña (al menos 6 caracteres)</string>
+    <string name="first_name">Nombres</string>
+    <string name="last_name">Apellidos</string>
+    <string name="already_a_user">¿Ya tienes una cuenta?</string>
+    <string name="create_your_account">Crea tu cuenta</string>
+    <string name="please_enter_valid_email">Por favor ingresa un correo valido.</string>
+    <string name="you_must_complete_form">Debes completar el formulario antes de avanzar.</string>
+    <string name="error_empty_first_name">Debes ingresar tu nombre.</string>
+    <string name="error_empty_last_name">Debes ingresar tu apellido.</string>
+    <string name="invalid_password">Asegúrate de que tu contraseña tenga al menos 6 caracteres y que incluya una combinación de letras y números para mayor seguridad.</string>
+    <string name="passwords_do_not_match">Verifica que ambas contraseñas sean iguales.</string>
+    <string name="account_success_created">!Tu cuenta ha sido creada exitosamente!</string>
+    <string name="hi_user">Hola, %1$s</string>
+    <string name="available_balance">Saldo disponible</string>
+    <string name="do_more">Haz más</string>
+    <string name="make_recharge">Realiza una recarga\na tu cuenta</string>
+    <string name="transfer_to_friend">Transfiere saldo a\nun amigo</string>
+    <string name="recharge">Recargar</string>
+    <string name="transfer">Transferir</string>
+    <string name="recent_transactions">Transacciones recientes</string>
+    <string name="without_transactions">No tienes transacciones\nen el momento.</string>
+    <string name="upload_photo_document_id">Agrega una foto de tu documento.</string>
+    <string name="take_a_photo">Fotografía el frente de tu documento.</string>
+    <string name="photo_captured">Foto capturada y validada.</string>
+    <string name="you_add_a_photo_document">Debes añadir una foto de su documento para continuar.</string>
+    <string name="amount">Monto</string>
+    <string name="transaction_type">Tipo de transacción</string>
+    <string name="full_date">Fecha de transacción</string>
+    <string name="description">Descripción</string>
+    <string name="transaction_details">Detalle de la transacción</string>
+    <string name="your_profile">Tu perfil</string>
+    <string name="account_details">Detalles de tu cuenta</string>
+    <string name="account_number">Número de cuenta</string>
+    <string name="account_date">Fecha de creación</string>
+    <string name="account_transactions">Transacciones realizadas</string>
+    <string name="logout">Cerrar sesión</string>
+    <string name="do_a_recharge">Haz una recarga</string>
+    <string name="account_number_to_recharge">Número de cuenta a recargar</string>
+    <string name="enter_the_amount">Ingresa el saldo que deseas recargar en tu cuenta, sin puntos ni comas.</string>
+    <string name="select_the_bank_recharge">Selecciona el banco desde donde harás la recarga</string>
+    <string name="success_recharge">¡Recarga exitosa! Tu nuevo saldo ahora está disponible.</string>
+    <string name="description_recharge">Depósito realizado desde el banco %1$s.</string>
+    <string name="do_a_transfer">Make a transfer</string>
+    <string name="your_account_number">Your account number</string>
+    <string name="success_transfer">¡Transferencia exitosa! El monto ha sido descontado de tu saldo.</string>
+    <string name="success_register">Welcome!</string>
+    <string name="transfer_recipient_account_number">Número de cuenta del destinatario de la transferencia</string>
+    <string name="destination_account">Destination account</string>
+    <string name="destination_account_number">Destination account number</string>
+    <string name="enter_the_amount_transfer">Ingresa el saldo que desea transferir a la cuenta del destinatario, sin puntos ni comas.</string>
+    <string name="add_a_description">Agrega una descripción si lo deseas</string>
+    <string name="account_number_not_exist">El número de cuenta del destinatario no existe.</string>
+    <string name="invalid_transfer_amount_en">Monto de transferencia inválido. El monto excede tu saldo actual.</string>
+
+    <array name="bank_list">
+        <item>Selecciona el banco</item>
+        <item>Banco de Bogotá</item>
+        <item>Banco de Occidente</item>
+        <item>Banco Davivienda</item>
+        <item>Banco Popular</item>
+        <item>Bancolombia</item>
+        <item>Banco Caja Social</item>
+    </array>
+
+</resources>

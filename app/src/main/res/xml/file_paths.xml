@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <external-files-path
+        name="my_images"
+        path="Android/data/com.deymer.ibank/files/Pictures" />
+    <external-path
+        name="my_images"
+        path="Android/data/com.deymer.ibank/files/Pictures" />
+    <cache-path
+        name="shared_images"
+        path="images/" />
+    <cache-path
+        name="cached_files"
+        path="." />
+    <files-path
+        name="images"
+        path="." />
+    <external-path
+        name="external_files"
+        path="." />
+</paths>
