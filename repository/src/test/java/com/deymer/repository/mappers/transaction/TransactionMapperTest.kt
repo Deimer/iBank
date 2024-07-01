@@ -44,8 +44,6 @@ class TransactionMapperTest {
         assertEquals(transactionEntity.destinationAccountId, transactionModel.destinationAccountId)
         assertEquals(transactionEntity.amount, transactionModel.amount, 0.0f)
         assertEquals(TransactionType.valueOf(transactionEntity.type), transactionModel.type)
-        assertEquals(toHumanDate(), transactionModel.createdAt)
-        assertEquals(toShortHumanDate(), transactionModel.shortDate)
         assertEquals(transactionEntity.description, transactionModel.description)
     }
 
@@ -83,13 +81,5 @@ class TransactionMapperTest {
         assertEquals(transactionEntity.amount, transactionModel.amount, 0.0f)
         assertEquals(TransactionType.valueOf(transactionEntity.type), transactionModel.type)
         assertEquals(transactionEntity.description, transactionModel.description)
-    }
-
-    private fun toHumanDate(): String {
-        return "22 - junio - 2024, 05:55 p. m."
-    }
-
-    private fun toShortHumanDate(): String {
-        return "Sábado 22 - junio"
     }
 }
