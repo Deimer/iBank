@@ -45,6 +45,3 @@ fun String.firstWord(): String {
         .split("\\s+".toRegex())
         .firstOrNull() ?: TAG_EMPTY
 }
-
-fun generateRandomBalances() =
-    (nextInt(TAG_MIN_BALANCE, TAG_MAX_BALANCE + 1) * 10).toFloat()
